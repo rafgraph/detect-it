@@ -23,6 +23,14 @@ import detectPointerEvents from 'detect-pointer-events';
  * }
  */
 
+function robustMax(a, b) {
+  function isNum(value) { return typeof value === 'number'; }
+  if (isNum(a) && isNum(b)) return Math.max(a, b);
+  if (isNum(a)) return a;
+  if (isNum(b)) return b;
+  return undefined;
+}
+
 const detectIt = {
   update() {
     detectHover.update();
@@ -37,15 +45,10 @@ const detectIt = {
       this.touchEventsApi = detectTouchEvents.hasApi;
       this.pointerEventsApi = detectPointerEvents.hasApi;
       this.pointerEventsPrefix = detectPointerEvents.prefix;
-      this.maxTouchPoints = (() => {
-        function isNum(value) { return typeof value === 'number'; }
-        const dtePts = this.state.detectTouchEvents.maxTouchPoints;
-        const dpePts = this.state.detectPointerEvents.maxTouchPoints;
-        if (isNum(dtePts) && isNum(dpePts)) return Math.max(dtePts, dpePts);
-        if (isNum(dtePts)) return dtePts;
-        if (isNum(dpePts)) return dpePts;
-        return undefined;
-      })();
+      this.maxTouchPoints = robustMax(
+        this.state.detectTouchEvents.maxTouchPoints,
+        this.state.detectPointerEvents.maxTouchPoints
+      );
       this.primaryHover =
         (detectHover.hover && 'hover') ||
         (detectHover.none && 'none') ||
@@ -55,16 +58,6 @@ const detectIt = {
         (detectPointer.coarse && 'coarse') ||
         (detectPointer.none && 'none');
     }
-
-    // function determineMaxTouchPoints() {
-    //   function isNum(value) { return typeof value === 'number'; }
-    //   const dtePts = detectIt.state.detectTouchEvents.maxTouchPoints;
-    //   const dpePts = detectPointerEvents.maxTouchPoints;
-    //   if (isNum(dtePts) && isNum(dpePts)) return Math.max(dtePts, dpePts);
-    //   if (isNum(dtePts)) return dtePts;
-    //   if (isNum(dpePts)) return dpePts;
-    //   return undefined;
-    // }
   },
   state: {
     detectHover,
