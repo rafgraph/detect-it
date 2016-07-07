@@ -30,6 +30,9 @@
   "homepage": "https://github.com/rafrex/detect-it#readme",
   "devDependencies": {
     "babel-cli": "^6.10.1",
-    "babel-preset-es2015": "^6.9.0"
+    "babel-preset-es2015": "^6.9.0",
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb-base": "^4.0.0",
+    "eslint-plugin-import": "^1.10.2"
   }
 }
