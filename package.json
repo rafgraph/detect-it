@@ -28,6 +28,12 @@
     "url": "https://github.com/rafrex/detect-it/issues"
   },
   "homepage": "https://github.com/rafrex/detect-it#readme",
+  "dependencies": {
+    "detect-hover": "^0.1.0",
+    "detect-pointer": "^0.1.0",
+    "detect-pointer-events": "^0.1.0",
+    "detect-touch-events": "^0.2.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-preset-es2015": "^6.9.0",
