@@ -3,6 +3,14 @@
   "version": "0.0.0",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
   "main": "lib/index.js",
+  "scripts": {
+    "build": "rm -rf lib && babel src --presets babel-preset-es2015 -d lib",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rafrex/detect-it.git"
@@ -19,5 +27,9 @@
   "bugs": {
     "url": "https://github.com/rafrex/detect-it/issues"
   },
-  "homepage": "https://github.com/rafrex/detect-it#readme"
+  "homepage": "https://github.com/rafrex/detect-it#readme",
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0"
+  }
 }
