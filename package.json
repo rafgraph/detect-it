@@ -1,0 +1,23 @@
+{
+  "name": "detect-it",
+  "version": "0.0.0",
+  "description": "Detect if a device is mouse only, touch only, or hybrid",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafrex/detect-it.git"
+  },
+  "keywords": [
+    "detect",
+    "device",
+    "mouse",
+    "touch",
+    "hybrid"
+  ],
+  "author": "Rafael Pedicini <code@rafrex.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rafrex/detect-it/issues"
+  },
+  "homepage": "https://github.com/rafrex/detect-it#readme"
+}
