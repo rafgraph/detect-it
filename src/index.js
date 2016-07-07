@@ -44,7 +44,6 @@ const detectIt = {
       this.deviceType = true; // TODO
       this.touchEventsApi = detectTouchEvents.hasApi;
       this.pointerEventsApi = detectPointerEvents.hasApi;
-      this.pointerEventsPrefix = detectPointerEvents.prefix;
       this.maxTouchPoints = robustMax(
         this.state.detectTouchEvents.maxTouchPoints,
         this.state.detectPointerEvents.maxTouchPoints
@@ -59,6 +58,7 @@ const detectIt = {
         (detectPointer.none && 'none');
     }
   },
+  pointerEventsPrefix: this.state.detectPointerEvents.prefix,
   state: {
     detectHover,
     detectPointer,
