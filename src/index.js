@@ -59,33 +59,33 @@ const detectIt = {
     detectPointerEvents,
   },
   update() {
-    this.state.detectHover.update();
-    this.state.detectPointer.update();
-    this.state.detectTouchEvents.update();
-    this.state.detectPointerEvents.update();
-    this.updateOnlyOwnProperties();
+    detectIt.state.detectHover.update();
+    detectIt.state.detectPointer.update();
+    detectIt.state.detectTouchEvents.update();
+    detectIt.state.detectPointerEvents.update();
+    detectIt.updateOnlyOwnProperties();
   },
   updateOnlyOwnProperties() {
     if (typeof window !== 'undefined') {
-      this.deviceType = determineDeviceType(
-        (this.state.detectTouchEvents.hasApi || this.state.detectPointerEvents.hasTouch),
-        this.state.detectHover.anyHover,
-        this.state.detectPointer.anyFine
+      detectIt.deviceType = determineDeviceType(
+        (detectIt.state.detectTouchEvents.hasApi || detectIt.state.detectPointerEvents.hasTouch),
+        detectIt.state.detectHover.anyHover,
+        detectIt.state.detectPointer.anyFine
       );
-      this.touchEventsApi = this.state.detectTouchEvents.hasApi;
-      this.pointerEventsApi = this.state.detectPointerEvents.hasApi;
-      this.maxTouchPoints = robustMax(
-        this.state.detectTouchEvents.maxTouchPoints,
-        this.state.detectPointerEvents.maxTouchPoints
+      detectIt.touchEventsApi = detectIt.state.detectTouchEvents.hasApi;
+      detectIt.pointerEventsApi = detectIt.state.detectPointerEvents.hasApi;
+      detectIt.maxTouchPoints = robustMax(
+        detectIt.state.detectTouchEvents.maxTouchPoints,
+        detectIt.state.detectPointerEvents.maxTouchPoints
       );
-      this.primaryHover =
-        (this.state.detectHover.hover && 'hover') ||
-        (this.state.detectHover.none && 'none') ||
-        (this.state.detectHover.onDemand && 'onDemand');
-      this.primaryPointer =
-        (this.state.detectPointer.fine && 'fine') ||
-        (this.state.detectPointer.coarse && 'coarse') ||
-        (this.state.detectPointer.none && 'none');
+      detectIt.primaryHover =
+        (detectIt.state.detectHover.hover && 'hover') ||
+        (detectIt.state.detectHover.none && 'none') ||
+        (detectIt.state.detectHover.onDemand && 'onDemand');
+      detectIt.primaryPointer =
+        (detectIt.state.detectPointer.fine && 'fine') ||
+        (detectIt.state.detectPointer.coarse && 'coarse') ||
+        (detectIt.state.detectPointer.none && 'none');
     }
   },
   pointerEventsPrefix: detectPointerEvents.prefix,
