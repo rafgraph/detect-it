@@ -3,7 +3,7 @@ import detectPointer from 'detect-pointer';
 import detectTouchEvents from 'detect-touch-events';
 import detectPointerEvents from 'detect-pointer-events';
 
-/**
+/*
  * detectIt object structure
  * const detectIt = {
  *   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
@@ -52,11 +52,17 @@ function determineDeviceType(hasTouch, anyHover, anyFine) {
 }
 
 const detectIt = {
+  state: {
+    detectHover,
+    detectPointer,
+    detectTouchEvents,
+    detectPointerEvents,
+  },
   update() {
-    detectHover.update();
-    detectPointer.update();
-    detectTouchEvents.update();
-    detectPointerEvents.update();
+    this.state.detectHover.update();
+    this.state.detectPointer.update();
+    this.state.detectTouchEvents.update();
+    this.state.detectPointerEvents.update();
     this.updateOnlyOwnProperties();
   },
   updateOnlyOwnProperties() {
@@ -66,29 +72,23 @@ const detectIt = {
         this.state.detectHover.anyHover,
         this.state.detectPointer.anyFine
       );
-      this.touchEventsApi = detectTouchEvents.hasApi;
-      this.pointerEventsApi = detectPointerEvents.hasApi;
+      this.touchEventsApi = this.state.detectTouchEvents.hasApi;
+      this.pointerEventsApi = this.state.detectPointerEvents.hasApi;
       this.maxTouchPoints = robustMax(
         this.state.detectTouchEvents.maxTouchPoints,
         this.state.detectPointerEvents.maxTouchPoints
       );
       this.primaryHover =
-        (detectHover.hover && 'hover') ||
-        (detectHover.none && 'none') ||
-        (detectHover.onDemand && 'onDemand');
+        (this.state.detectHover.hover && 'hover') ||
+        (this.state.detectHover.none && 'none') ||
+        (this.state.detectHover.onDemand && 'onDemand');
       this.primaryPointer =
-        (detectPointer.fine && 'fine') ||
-        (detectPointer.coarse && 'coarse') ||
-        (detectPointer.none && 'none');
+        (this.state.detectPointer.fine && 'fine') ||
+        (this.state.detectPointer.coarse && 'coarse') ||
+        (this.state.detectPointer.none && 'none');
     }
   },
   pointerEventsPrefix: this.state.detectPointerEvents.prefix,
-  state: {
-    detectHover,
-    detectPointer,
-    detectTouchEvents,
-    detectPointerEvents,
-  },
 };
 
 detectIt.updateOnlyOwnProperties();
