@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/rafrex/detect-it#readme",
   "dependencies": {
-    "detect-hover": "^0.1.0",
-    "detect-pointer": "^0.1.0",
-    "detect-pointer-events": "^0.1.0",
-    "detect-touch-events": "^0.2.0"
+    "detect-hover": "^0.1.1",
+    "detect-pointer": "^0.1.1",
+    "detect-pointer-events": "^0.1.1",
+    "detect-touch-events": "^0.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
