@@ -88,7 +88,7 @@ const detectIt = {
         (this.state.detectPointer.none && 'none');
     }
   },
-  pointerEventsPrefix: this.state.detectPointerEvents.prefix,
+  pointerEventsPrefix: detectPointerEvents.prefix,
 };
 
 detectIt.updateOnlyOwnProperties();
