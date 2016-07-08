@@ -80,8 +80,7 @@ const detectIt = {
       );
       detectIt.primaryHover =
         (detectIt.state.detectHover.hover && 'hover') ||
-        (detectIt.state.detectHover.none && 'none') ||
-        (detectIt.state.detectHover.onDemand && 'onDemand');
+        ((detectIt.state.detectHover.none || detectIt.state.detectHover.onDemand) && 'none');
       detectIt.primaryPointer =
         (detectIt.state.detectPointer.fine && 'fine') ||
         (detectIt.state.detectPointer.coarse && 'coarse') ||
