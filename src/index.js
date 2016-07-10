@@ -11,7 +11,7 @@ import detectPointerEvents from 'detect-pointer-events';
  *   pointerEventsApi: boolean,
  *   pointerEventsPrefix(value) {return value, value will only have prefix if requiresPrefix},
  *   maxTouchPoints: number,
- *   primaryHover: 'hover' / 'none' / 'onDemand',
+ *   primaryHover: 'hover' / 'none',
  *   primaryPointer: 'fine' / 'coarse' / 'none',
  *   state: {
  *     detectHover,
