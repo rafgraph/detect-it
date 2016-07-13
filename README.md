@@ -13,7 +13,7 @@ Exports a reference to a singleton object (a micro state machine with an update 
 ```javascript
 const detectIt = {
   /*
-   * detect-it's state is a deterministic function
+   * detectIt's state is a deterministic function of the state
    * of the four micro state machines it encapsulates
    */
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
@@ -23,10 +23,8 @@ const detectIt = {
   primaryHover: 'hover' / 'none',
   primaryPointer: 'fine' / 'coarse' / 'none',
 
-  /*
-   * access to the four micro state machines that detect-it encapsulates:
-   * detect-hover, detect-pointer, detect-touch-events, and detect-pointer-events
-   */
+
+  // access to the four micro state machines that detectIt encapsulates
   state: {
     detectHover,
     detectPointer,
@@ -34,13 +32,10 @@ const detectIt = {
     detectPointerEvents,
   },
 
-  /*
-   * updates the state of the four micro state machines it encapsulates,
-   * and then updates its own state
-   */
+  // updates the state of the four micro state machines it encapsulates, and then updates its own state
   update() {...},
 
-  // easy access to detect-pointer-events' prefix function
+  // easy access to detectPointerEvents' prefix function
   pointerEventsPrefix(value) {...},
 }
 ```
