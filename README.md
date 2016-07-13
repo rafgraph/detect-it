@@ -55,18 +55,20 @@ import detectIt from 'detect-it';
 ```javascript
 // using the state
 detectIt.deviceType === 'mouseOnly' / 'touchOnly' / 'hybrid'; // the device type
-detectIt.touchEventsApi === true; // the browser responds to the touch events api
-detectIt.pointerEventsApi === true; // the browser responds to the pointer events api
-detectIt.maxTouchPoints; // maximum number of touch points supported by the device if it is a touchOnly or hybrid device
+
+detectIt.touchEventsApi === true; // the browser supports the touch events api
+detectIt.pointerEventsApi === true; // the browser supports the pointer events api
+detectIt.maxTouchPoints; // max number of touch points supported if the device is touchOnly or hybrid
+
 detectIt.primaryHover === 'hover' / 'none'; // can the primary pointing system easily hover
 detectIt.primaryPointer === 'fine' / `coarse` / 'none'; // how accurate is the primary pointing system
 
 
-// accessing the state of the micro state machines that detect-it encapsulates
-detectIt.state.detectHover; // see the detect-hover repo for info on detectHover's state
-detectIt.state.detectPointer; // see the detect-pointer repo for info on detectPointer's state
-detectIt.state.detectTouchEvents; // see the detect-touch-events repo for info on detectTouchEvents' state
-detectIt.state.detectPointerEvents; // see the detect-pointer-events repo for info on detectPointerEvents' state
+// accessing the state of the micro state machines that detectIt encapsulates
+detectIt.state.detectHover; // see the detect-hover repo for more info
+detectIt.state.detectPointer; // see the detect-pointer repo for more info
+detectIt.state.detectTouchEvents; // see the detect-touch-events repo for more info
+detectIt.state.detectPointerEvents; // see the detect-pointer-events repo for more info
 
 
 // updating the state - most apps won't need to use this at all
