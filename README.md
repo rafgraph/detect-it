@@ -6,7 +6,7 @@ Detect if a device is mouse only, touch only, or hybrid.
 
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device, see the `detectIt` micro state machine section below for details), as well as an `update()` function which updates the object's state.
 
-`detect-it`'s state is a deterministic function of the state of the four micro state machines that it encapsulates ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each the micro state machines it encapsulates, and then updates it own state.
+`detect-it`'s state is a deterministic function of the state of the four micro state machines that it encapsulates ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it encapsulates, and then updates it own state.
 
 
 ## `detectIt` micro state machine
