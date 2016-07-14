@@ -117,6 +117,37 @@ const detectIt = {
 
 Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
 
+#### Using `detect-it` to set event listeners
+```javascript
+const dIt = detectIt;
+
+if (dIt.mouseOnly) {
+  // only set mouse event listeners
+}
+
+if (dIt.touchOnly && dIt.hasTouchEventsApi) {
+  // only set touch event listeners
+}
+
+if (dIt.hybrid && dIt.hasTouchEventsApi) {
+  // set both mouse and touch event listeners
+}
+
+// using pointer events
+if (dIt.mouseOnly && dIt.hasPointerEventsApi) {
+  // can set only pointer event listeners knowing that the pointerType will only be mouse
+  // (or can just set mouse event listeners instead of pointer event listeners)
+}
+
+if (dIt.touchOnly && dIt.hasPointerEventsApi) {
+  // only set pointer event listeners knowing that pointerType will be pen or touch
+  // (if the browser also hasTouchEventsApi, set either pointer or touch event listeners)
+}
+
+if (dIt.hybrid && dIt.hasPointerEventsApi) {
+  // only set pointer event listeners knowing that pointerType could be mouse, pen, or touch
+}
+```
 
 ## Part of the `detect-it` family
 - **`detect-it`**
