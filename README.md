@@ -17,8 +17,8 @@ const detectIt = {
    * of the four micro state machines it encapsulates
    */
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
-  touchEventsApi: boolean,
-  pointerEventsApi: boolean,
+  hasTouchEventsApi: boolean,
+  hasPointerEventsApi: boolean,
   maxTouchPoints: whole number,
   primaryHover: 'hover' / 'none',
   primaryPointer: 'fine' / 'coarse' / 'none',
@@ -56,8 +56,8 @@ import detectIt from 'detect-it';
 // using the state
 detectIt.deviceType === 'mouseOnly' / 'touchOnly' / 'hybrid'; // the device type
 
-detectIt.touchEventsApi === true; // the browser supports the touch events api
-detectIt.pointerEventsApi === true; // the browser supports the pointer events api
+detectIt.hasTouchEventsApi === true; // the browser supports the touch events api
+detectIt.hasPointerEventsApi === true; // the browser supports the pointer events api
 detectIt.maxTouchPoints; // max number of touch points supported if the device is touchOnly or hybrid
 
 detectIt.primaryHover === 'hover' / 'none'; // can the primary pointing system easily hover
