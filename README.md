@@ -149,6 +149,19 @@ if (dIt.hybrid && dIt.hasPointerEventsApi) {
 }
 ```
 
+#### Using `detect-it` to adjust the user interface
+```javascript
+const dIt = detectIt;
+
+if (dIt.primaryPointer === 'coarse') {
+  // make clickable elements bigger
+}
+
+if (dIt.primaryHover === 'none') {
+  // make site usable without hovering
+}
+```
+
 ## Part of the `detect-it` family
 - **`detect-it`**
   - [`detect-hover`][detectHoverRepo]
