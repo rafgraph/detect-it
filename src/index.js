@@ -7,8 +7,8 @@ import detectPointerEvents from 'detect-pointer-events';
  * detectIt object structure
  * const detectIt = {
  *   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
- *   touchEventsApi: boolean,
- *   pointerEventsApi: boolean,
+ *   hasTouchEventsApi: boolean,
+ *   hasPointerEventsApi: boolean,
  *   pointerEventsPrefix(value) {return value, value will only have prefix if requiresPrefix},
  *   maxTouchPoints: number,
  *   primaryHover: 'hover' / 'none',
@@ -73,8 +73,8 @@ const detectIt = {
         detectIt.state.detectPointer.anyFine
       );
 
-      detectIt.touchEventsApi = detectIt.state.detectTouchEvents.hasApi;
-      detectIt.pointerEventsApi = detectIt.state.detectPointerEvents.hasApi;
+      detectIt.hasTouchEventsApi = detectIt.state.detectTouchEvents.hasApi;
+      detectIt.hasPointerEventsApi = detectIt.state.detectPointerEvents.hasApi;
       detectIt.maxTouchPoints = robustMax(
         detectIt.state.detectTouchEvents.maxTouchPoints,
         detectIt.state.detectPointerEvents.maxTouchPoints
