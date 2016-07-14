@@ -6,7 +6,7 @@ Detect if a device is mouse only, touch only, or hybrid.
 
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device, see the `detectIt` micro state machine section below for details), as well as an `update()` function which updates the object's state.
 
-`detect-it`'s state is a deterministic function of the state of the four micro state machines that it encapsulates ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it encapsulates, and then updates it own state.
+`detect-it`'s state is a deterministic function of the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
 
 
 ## `detectIt` micro state machine
@@ -14,7 +14,7 @@ Exports a reference to a singleton object (a micro state machine with an update 
 const detectIt = {
   /*
    * detectIt's state is a deterministic function of the state
-   * of the four micro state machines it encapsulates
+   * of the four micro state machines it contains
    */
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
   hasTouchEventsApi: boolean,
@@ -25,7 +25,7 @@ const detectIt = {
   primaryPointer: 'fine' / 'coarse' / 'none',
 
 
-  // access to the four micro state machines that detectIt encapsulates
+  // access to the four micro state machines that detectIt contains
   state: {
     detectHover,
     detectPointer,
@@ -33,7 +33,7 @@ const detectIt = {
     detectPointerEvents,
   },
 
-  // updates the state of the four micro state machines it encapsulates, and then updates its own state
+  // updates the state of the four micro state machines it contains, and then updates its own state
   update() {...},
 
   // easy access to detectPointerEvents' prefix function
@@ -67,7 +67,7 @@ detectIt.primaryHover === 'hover' / 'none'; // can the primary pointing system e
 detectIt.primaryPointer === 'fine' / `coarse` / 'none'; // how accurate is the primary pointing system
 
 
-// accessing the state of the micro state machines that detectIt encapsulates
+// accessing the state of the micro state machines that detectIt contains
 detectIt.state.detectHover; // see the detect-hover repo for more info
 detectIt.state.detectPointer; // see the detect-pointer repo for more info
 detectIt.state.detectTouchEvents; // see the detect-touch-events repo for more info
