@@ -34,12 +34,8 @@ function robustMax(a, b) {
 
 function determineDeviceType(hasTouch, anyHover, anyFine) {
   /*
-   * A hybrid device is one that both hasTouch and any input device can either hover
-   * or has a fine pointer. For example, the Galaxy Note with stylus registers
-   * that one of it's input devices has a fine pointer (i.e. the stylus), but
-   * only that it can hover on-demand (which can't be used as a determinant because
-   * all Android touch only devices also say they can hover on-demand
-   * because a hover state can be activated on Android via a long press)
+   * A hybrid device is one that both hasTouch and any input device can hover
+   * or has a fine pointer.
    */
   if (hasTouch && (anyHover || anyFine)) return 'hybrid';
 
@@ -90,7 +86,7 @@ const detectIt = {
       detectIt.primaryHover =
         (detectIt.state.detectHover.hover && 'hover') ||
         (detectIt.state.detectHover.none && 'none') ||
-        // if it's a mouseOnly device that doesn't support the level 4 media queries,
+        // if it's a mouseOnly device that doesn't support level 4 media queries,
         // then assume it hovers
         (detectIt.deviceType === 'mouseOnly' && 'hover') ||
         // if it's a touchOnly device that doesn't support level 4 media queries,
