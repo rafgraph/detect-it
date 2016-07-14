@@ -72,19 +72,34 @@ const detectIt = {
         detectIt.state.detectHover.anyHover,
         detectIt.state.detectPointer.anyFine
       );
+
       detectIt.touchEventsApi = detectIt.state.detectTouchEvents.hasApi;
       detectIt.pointerEventsApi = detectIt.state.detectPointerEvents.hasApi;
       detectIt.maxTouchPoints = robustMax(
         detectIt.state.detectTouchEvents.maxTouchPoints,
         detectIt.state.detectPointerEvents.maxTouchPoints
       );
+
       detectIt.primaryHover =
         (detectIt.state.detectHover.hover && 'hover') ||
-        (detectIt.state.detectHover.none && 'none');
+        (detectIt.state.detectHover.none && 'none') ||
+        // if it's a mouseOnly device that doesn't support the level 4 media queries,
+        // then assume it hovers
+        (detectIt.deviceType === 'mouseOnly' && 'hover') ||
+        // if it's a touchOnly device that doesn't support level 4 media queries,
+        // then assume it doesn't hover, otherwise it's undefined
+        (detectIt.deviceType === 'touchOnly' && 'none') || undefined;
+
       detectIt.primaryPointer =
         (detectIt.state.detectPointer.fine && 'fine') ||
         (detectIt.state.detectPointer.coarse && 'coarse') ||
-        (detectIt.state.detectPointer.none && 'none');
+        (detectIt.state.detectPointer.none && 'none') ||
+        // if it's a mouseOnly device that doesn't support level 4 media queries,
+        // then assume it has a fine pointer
+        (detectIt.deviceType === 'mouseOnly' && 'fine') ||
+        // if it's a touchOnly device that doesn't support level 4 media queries,
+        // then assume it has a coarse pointer, otherwise it's undefined
+        (detectIt.deviceType === 'touchOnly' && 'coarse') || undefined;
     }
   },
   pointerEventsPrefix: detectPointerEvents.prefix,
