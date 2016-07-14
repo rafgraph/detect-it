@@ -9,7 +9,7 @@ import detectPointerEvents from 'detect-pointer-events';
  *   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
  *   hasTouchEventsApi: boolean,
  *   hasPointerEventsApi: boolean,
- *   pointerEventsPrefix(value) {return value, value will only have prefix if requiresPrefix},
+ *   hasTouch: boolean,
  *   maxTouchPoints: number,
  *   primaryHover: 'hover' / 'none',
  *   primaryPointer: 'fine' / 'coarse' / 'none',
@@ -20,6 +20,7 @@ import detectPointerEvents from 'detect-pointer-events';
  *     detectPointerEvents,
  *   },
  *   update() {...},
+ *   pointerEventsPrefix(value) {return value, value will only have prefix if requiresPrefix},
  * }
  */
 
@@ -67,14 +68,20 @@ const detectIt = {
   },
   updateOnlyOwnProperties() {
     if (typeof window !== 'undefined') {
+      detectIt.hasTouch =
+        detectIt.state.detectTouchEvents.hasApi ||
+        detectIt.state.detectPointerEvents.hasTouch ||
+        false;
+
       detectIt.deviceType = determineDeviceType(
-        (detectIt.state.detectTouchEvents.hasApi || detectIt.state.detectPointerEvents.hasTouch),
+        detectIt.hasTouch,
         detectIt.state.detectHover.anyHover,
         detectIt.state.detectPointer.anyFine
       );
 
       detectIt.hasTouchEventsApi = detectIt.state.detectTouchEvents.hasApi;
       detectIt.hasPointerEventsApi = detectIt.state.detectPointerEvents.hasApi;
+
       detectIt.maxTouchPoints = robustMax(
         detectIt.state.detectTouchEvents.maxTouchPoints,
         detectIt.state.detectPointerEvents.maxTouchPoints
