@@ -19,6 +19,7 @@ const detectIt = {
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
   hasTouchEventsApi: boolean,
   hasPointerEventsApi: boolean,
+  hasTouch: boolean,
   maxTouchPoints: whole number,
   primaryHover: 'hover' / 'none',
   primaryPointer: 'fine' / 'coarse' / 'none',
@@ -58,7 +59,9 @@ detectIt.deviceType === 'mouseOnly' / 'touchOnly' / 'hybrid'; // the device type
 
 detectIt.hasTouchEventsApi === true; // the browser supports the touch events api
 detectIt.hasPointerEventsApi === true; // the browser supports the pointer events api
-detectIt.maxTouchPoints; // max number of touch points supported if the device is touchOnly or hybrid
+
+detectIt.hasTouch === true; // this is a touch capable device (no inference about api)
+detectIt.maxTouchPoints; // max number of touch points supported
 
 detectIt.primaryHover === 'hover' / 'none'; // can the primary pointing system easily hover
 detectIt.primaryPointer === 'fine' / `coarse` / 'none'; // how accurate is the primary pointing system
@@ -91,6 +94,7 @@ const detectIt = {
   deviceType: 'mouseOnly',
   hasTouchEventsApi: false,
   hasPointerEventsApi: false,
+  hasTouch: false,
   maxTouchPoints: undefined,
   primaryHover: 'hover',
   primaryPointer: 'fine',
@@ -104,6 +108,7 @@ const detectIt = {
   deviceType: 'touchOnly',
   hasTouchEventsApi: true,
   hasPointerEventsApi: false,
+  hasTouch: true,
   maxTouchPoints: undefined,
   primaryHover: 'none',
   primaryPointer: 'coarse',
