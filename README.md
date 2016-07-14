@@ -121,30 +121,37 @@ Note that the `update()` function is run once at the time of import to set the o
 ```javascript
 const dIt = detectIt;
 
-if (dIt.mouseOnly) {
+// using mouse and touch events
+if (dIt.deviceType === 'mouseOnly') {
   // only set mouse event listeners
 }
-
-if (dIt.touchOnly && dIt.hasTouchEventsApi) {
+if (dIt.deviceType === 'touchOnly' && dIt.hasTouchEventsApi) {
   // only set touch event listeners
 }
-
-if (dIt.hybrid && dIt.hasTouchEventsApi) {
+if (dIt.deviceType === 'hybrid' && dIt.hasTouchEventsApi) {
   // set both mouse and touch event listeners
 }
 
+// note that there are cases where a touch capable device only fires pointer events
+if (dIt.hasTouch && dIt.hasPointerEventsApi && !dIt.hasTouchEventsApi) {
+  // must set pointer events to access touch capabilities of device
+  // note that dIt.hasTouch includes all touchOnly and hybrid devices
+  // (you could be more specific and just target touchOnly or hybrid devices instead)
+}
+
 // using pointer events
-if (dIt.mouseOnly && dIt.hasPointerEventsApi) {
+if (dIt.hasPointerEventsApi) {
+  // can set only pointer event listeners instead mouse and touch event listeners
+}
+if (dIt.deviceType === 'mouseOnly' && dIt.hasPointerEventsApi) {
   // can set only pointer event listeners knowing that the pointerType will only be mouse
   // (or can just set mouse event listeners instead of pointer event listeners)
 }
-
-if (dIt.touchOnly && dIt.hasPointerEventsApi) {
+if (dIt.deviceType === 'touchOnly' && dIt.hasPointerEventsApi) {
   // only set pointer event listeners knowing that pointerType will be pen or touch
   // (if the browser also hasTouchEventsApi, set either pointer or touch event listeners)
 }
-
-if (dIt.hybrid && dIt.hasPointerEventsApi) {
+if (dIt.deviceType === 'hybrid' && dIt.hasPointerEventsApi) {
   // only set pointer event listeners knowing that pointerType could be mouse, pen, or touch
 }
 ```
