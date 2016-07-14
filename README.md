@@ -117,7 +117,7 @@ const detectIt = {
 
 Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
 
-#### Using `detect-it` to set event listeners
+### Using `detect-it` to set event listeners
 ```javascript
 const dIt = detectIt;
 
@@ -149,7 +149,7 @@ if (dIt.hybrid && dIt.hasPointerEventsApi) {
 }
 ```
 
-#### Using `detect-it` to adjust the user interface
+### Using `detect-it` to adjust the user interface
 ```javascript
 const dIt = detectIt;
 
