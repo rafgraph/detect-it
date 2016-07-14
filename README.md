@@ -176,11 +176,30 @@ if (dIt.primaryHover === 'none') {
   - [`detect-touch-events`][detectTouchEventsRepo]
   - [`detect-pointer-events`][detectPointerEventsRepo]
 
+## For more information
+- `hover` and `any-hover` media queries see the [W3C Media Queries Level 4 specification, hover section][w3cMediaQueriesSpecLatestHover]
+- `pointer` and `any-pointer` media queries see the [W3C Media Queries Level 4 specification, pointer section][w3cMediaQueriesSpecLatestPointer]
+- Touch events api see [MDN's Touch Events][mdnTouchEvents], or the [W3C Touch Events specification][w3cTouchEventsSpecLatest]
+- Pointer events api see [MDN's Pointer Events][mdnPointerEvents], or the [W3C Pointer Events specification][w3cPointerEventsSpecLatest]
+
+### Thank you
+The work put into `detect-it` was made much easier by the excellent suite of [touch/pointer tests and demos][touchTests] put together by [Patrick H. Lauke][patrickHLauke]
 
 <!-- links -->
 [liveDetectionTest]: http://detect-it.rafrex.com/
 [onNpm]: https://www.npmjs.com/package/detect-it
+
 [detectHoverRepo]: https://github.com/rafrex/detect-hover
 [detectPointerRepo]: https://github.com/rafrex/detect-pointer
 [detectTouchEventsRepo]: https://github.com/rafrex/detect-touch-events
 [detectPointerEventsRepo]: https://github.com/rafrex/detect-pointer-events
+
+[w3cMediaQueriesSpecLatestHover]: https://www.w3.org/TR/mediaqueries-4/#hover
+[w3cMediaQueriesSpecLatestPointer]: https://www.w3.org/TR/mediaqueries-4/#pointer
+[mdnTouchEvents]: https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+[w3cTouchEventsSpecLatest]: https://w3c.github.io/touch-events/
+[w3cPointerEventsSpecLatest]: https://www.w3.org/TR/pointerevents/
+[mdnPointerEvents]: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events
+
+[touchTests]: https://patrickhlauke.github.io/touch/
+[patrickHLauke]: https://github.com/patrickhlauke
