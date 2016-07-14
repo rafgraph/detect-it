@@ -82,6 +82,34 @@ detectIt.pointerEventsPrefix(value) // returns the value and only adds the prefi
 element.addEventListener(detectIt.pointerEventsPrefix('pointerdown'), function...)
 ```
 
+```javascript
+/*
+ * note that in the case of a legacy computer and browser, one that
+ * doesn't support any of detect-it's detection tests, the default state will be:
+ */
+const detectIt = {
+  deviceType: 'mouseOnly',
+  hasTouchEventsApi: false,
+  hasPointerEventsApi: false,
+  maxTouchPoints: undefined,
+  primaryHover: 'hover',
+  primaryPointer: 'fine',
+}
+
+/*
+ * note that in the case of a legacy touch device, one that supports the touch events api,
+ * but not any of the other detection tests, the default state will be:
+ */
+const detectIt = {
+  deviceType: 'touchOnly',
+  hasTouchEventsApi: true,
+  hasPointerEventsApi: false,
+  maxTouchPoints: undefined,
+  primaryHover: 'none',
+  primaryPointer: 'coarse',
+}
+```
+
 Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
 
 
