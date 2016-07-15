@@ -185,6 +185,34 @@ if (dIt.primaryHover === 'none') {
 ### Thank you
 The work put into `detect-it` was made much easier by the excellent suite of [touch/pointer tests and demos][touchTests] put together by [Patrick H. Lauke][patrickHLauke]
 
+## Notes about detecting the `deviceType`
+I have chosen a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from the strict definitions of a coarse touch with a finger, or a fine point and hover with a mouse, then it should be treated uniquely when considering how the user will interact with it, and so is placed in the broad `hybrid` category.
+
+```javascript
+// this is the function used by detect-it to detemine the device type
+function determineDeviceType(hasTouch, anyHover, anyFine) {
+  /*
+   * A hybrid device is one that both hasTouch and any input device can hover
+   * or has a fine pointer. Note that hasTouch only reflects the capabilities
+   * of the device, but provides no inference about the api.
+   */
+  if (hasTouch && (anyHover || anyFine)) return 'hybrid';
+
+  /*
+   * In almost all cases a device that doesn’t support touch will have a mouse,
+   * but there may be rare exceptions. Note that it doesn’t work to do additional tests
+   * based on hover and pointer media queries as older browsers don’t support these.
+   * Essentially, 'mouseOnly' is the default.
+   */
+  return hasTouch ? 'touchOnly' : 'mouseOnly';
+}
+```
+
+Some `hybrid` examples:
+- A touch capable Chromebook with Chrome browser registers that `hasTouch`, `anyHover`, and `anyFine` are all true (and that `hasTouchEventsApi` is true).
+- The Galaxy Note with stylus running the Chrome mobile browser registers that `hasTouch` and `anyFine` are true, but that `anyHover` is false (and that `hasTouchEventsApi` is true) - as a side note I think that since the stylus hovers effectively, the Note should register as `anyHover` true, but for some reason it doesn't.
+- The Microsoft Surface (and other Windows 10 touchscreen computers) register that `hasTouch`, `anyHover` and `anyFine` are all true for both Microsoft Edge and Chrome browsers (note that for the Edge browser `hasPointerEventsApi` is true, but `hasTouchEventsApi` is false, and for the Chrome browser `hasTouchEventsApi` is true, but `hasPointerEventsApi` is false).
+
 <!-- links -->
 [liveDetectionTest]: http://detect-it.rafrex.com/
 [onNpm]: https://www.npmjs.com/package/detect-it
