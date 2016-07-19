@@ -9,7 +9,7 @@ Exports a reference to a singleton object (a micro state machine with an update 
 `detect-it`'s state is a deterministic function of the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
 
 
-## `detectIt` micro state machine
+### `detectIt` micro state machine
 ```javascript
 const detectIt = {
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
@@ -39,18 +39,21 @@ const detectIt = {
 }
 ```
 
-## Installing `detect-it`
+### Installing `detect-it`
 ```terminal
 $ npm install detect-it
 ```
+<!--
+### Importing `detect-it`
+```javascript
+import detectIt from 'detect-it';
+``` -->
 
-## Importing `detect-it`
+
+### Using `detect-it`
 ```javascript
 import detectIt from 'detect-it';
 ```
-
-
-## Using `detect-it`
 ```javascript
 // using the state
 detectIt.deviceType === 'mouseOnly' / 'touchOnly' / 'hybrid'; // the device type
@@ -115,7 +118,7 @@ const detectIt = {
 
 Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
 
-### Using `detect-it` to set event listeners
+#### Using `detect-it` to set event listeners
 ```javascript
 const dIt = detectIt;
 
@@ -154,7 +157,7 @@ if (dIt.deviceType === 'hybrid' && dIt.hasPointerEventsApi) {
 }
 ```
 
-### Using `detect-it` to adjust the user interface
+#### Using `detect-it` to adjust the user interface
 ```javascript
 const dIt = detectIt;
 
@@ -167,23 +170,23 @@ if (dIt.primaryHover === 'none') {
 }
 ```
 
-## Part of the `detect-it` family
+### Part of the `detect-it` family
 - **`detect-it`**
   - [`detect-hover`][detectHoverRepo]
   - [`detect-pointer`][detectPointerRepo]
   - [`detect-touch-events`][detectTouchEventsRepo]
   - [`detect-pointer-events`][detectPointerEventsRepo]
 
-## For more information
+### For more information
 - `hover` and `any-hover` media queries see the [W3C Media Queries Level 4 specification, hover section][w3cMediaQueriesSpecLatestHover]
 - `pointer` and `any-pointer` media queries see the [W3C Media Queries Level 4 specification, pointer section][w3cMediaQueriesSpecLatestPointer]
 - Touch events api see [MDN's Touch Events][mdnTouchEvents], or the [W3C Touch Events specification][w3cTouchEventsSpecLatest]
 - Pointer events api see [MDN's Pointer Events][mdnPointerEvents], or the [W3C Pointer Events specification][w3cPointerEventsSpecLatest]
 
-### Thank you
+#### Thank you
 The work put into `detect-it` was made much easier by the excellent suite of [touch/pointer tests and demos][touchTests] put together by [Patrick H. Lauke][patrickHLauke]
 
-## Notes about detecting the `deviceType`
+### Notes about detecting the `deviceType`
 I have chosen a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from the strict definitions of a coarse touch with a finger, or a fine point and hover with a mouse, then it should be treated uniquely when considering how the user will interact with it, and so is placed in the broad `hybrid` category.
 
 ```javascript
