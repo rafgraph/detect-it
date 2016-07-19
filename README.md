@@ -12,10 +12,6 @@ Exports a reference to a singleton object (a micro state machine with an update 
 ## `detectIt` micro state machine
 ```javascript
 const detectIt = {
-  /*
-   * detectIt's state is a deterministic function of the state
-   * of the four micro state machines it contains
-   */
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
   hasTouchEventsApi: boolean,
   hasPointerEventsApi: boolean,
@@ -24,8 +20,10 @@ const detectIt = {
   primaryHover: 'hover' / 'none',
   primaryPointer: 'fine' / 'coarse' / 'none',
 
-
-  // access to the four micro state machines that detectIt contains
+  /*
+   * detectIt's state is a deterministic function of the state
+   * of the four micro state machines it contains, which can be accessed here
+   */
   state: {
     detectHover,
     detectPointer,
