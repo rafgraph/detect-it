@@ -4,7 +4,7 @@ Detect if a device is mouse only, touch only, or hybrid.
 
 [Live detection test][liveDetectionTest] &#8212; [view on npm][onNpm]
 
-Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device, see the `detectIt` micro state machine section below for details), as well as an `update()` function which updates the object's state.
+Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
 
 `detect-it`'s state is a deterministic function of the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
 
@@ -20,10 +20,7 @@ const detectIt = {
   primaryHover: 'hover' / 'none',
   primaryPointer: 'fine' / 'coarse' / 'none',
 
-  /*
-   * detectIt's state is a deterministic function of the state
-   * of the four micro state machines it contains, which can be accessed here
-   */
+  // access to the four micro state machines that it contains
   state: {
     detectHover,
     detectPointer,
@@ -165,8 +162,8 @@ if (dIt.primaryPointer === 'coarse') {
   // make clickable elements bigger
 }
 
-if (dIt.primaryHover === 'none') {
-  // make site usable without hovering
+if (dIt.primaryHover === 'hover') {
+  // can add hover features
 }
 ```
 
@@ -187,10 +184,10 @@ if (dIt.primaryHover === 'none') {
 The work put into `detect-it` was made much easier by the excellent suite of [touch/pointer tests and demos][touchTests] put together by [Patrick H. Lauke][patrickHLauke]
 
 ### Notes about detecting the `deviceType`
-I have chosen a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from the strict definitions of a coarse touch with a finger, or a fine point and hover with a mouse, then it should be treated uniquely when considering how the user will interact with it, and so is placed in the broad `hybrid` category.
+I chose a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from a fine point and hover with a mouse, or a coarse touch with a finger, then it should be treated uniquely when considering how the user will interact with it, and so is placed in the broad `hybrid` category.
 
 ```javascript
-// this is the function used by detect-it to detemine the device type
+// this is the function used by detect-it to determine the device type
 function determineDeviceType(hasTouch, anyHover, anyFine) {
   /*
    * A hybrid device is one that both hasTouch and any input device can hover
