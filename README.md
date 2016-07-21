@@ -2,7 +2,7 @@
 
 Detect if a device is mouse only, touch only, or hybrid.
 
-[Live detection test][liveDetectionTest] &#8212; [view on npm][onNpm]
+[Live detection test][liveDetectionTest]
 
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
 
@@ -40,12 +40,6 @@ const detectIt = {
 ```terminal
 $ npm install detect-it
 ```
-<!--
-### Importing `detect-it`
-```javascript
-import detectIt from 'detect-it';
-``` -->
-
 
 ### Using `detect-it`
 ```javascript
@@ -113,60 +107,6 @@ const detectIt = {
 }
 ```
 
-Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
-
-#### Using `detect-it` to set event listeners
-```javascript
-const dIt = detectIt;
-
-// using mouse and touch events
-if (dIt.deviceType === 'mouseOnly') {
-  // only set mouse event listeners
-}
-if (dIt.deviceType === 'touchOnly' && dIt.hasTouchEventsApi) {
-  // only set touch event listeners
-}
-if (dIt.deviceType === 'hybrid' && dIt.hasTouchEventsApi) {
-  // set both mouse and touch event listeners
-}
-
-// note that there are cases where a touch capable device only fires pointer events
-if (dIt.hasTouch && dIt.hasPointerEventsApi && !dIt.hasTouchEventsApi) {
-  // must set pointer events to access touch capabilities of device
-  // note that dIt.hasTouch includes all touchOnly and hybrid devices
-  // (you could be more specific and just target touchOnly or hybrid devices instead)
-}
-
-// using pointer events
-if (dIt.hasPointerEventsApi) {
-  // can set only pointer event listeners instead mouse and touch event listeners
-}
-if (dIt.deviceType === 'mouseOnly' && dIt.hasPointerEventsApi) {
-  // can set only pointer event listeners knowing that the pointerType will only be mouse
-  // (or can just set mouse event listeners instead of pointer event listeners)
-}
-if (dIt.deviceType === 'touchOnly' && dIt.hasPointerEventsApi) {
-  // only set pointer event listeners knowing that pointerType will be pen or touch
-  // (if the browser also hasTouchEventsApi, set either pointer or touch event listeners)
-}
-if (dIt.deviceType === 'hybrid' && dIt.hasPointerEventsApi) {
-  // only set pointer event listeners knowing that pointerType could be mouse, pen, or touch
-}
-```
-
-#### Using `detect-it` to adjust the user interface
-```javascript
-const dIt = detectIt;
-
-if (dIt.primaryPointer === 'coarse') {
-  // make clickable elements bigger
-}
-
-if (dIt.primaryHover === 'hover') {
-  // can add hover features
-}
-```
-
 ### Part of the `detect-it` family
 - **`detect-it`**
   - [`detect-hover`][detectHoverRepo]
@@ -206,14 +146,8 @@ function determineDeviceType(hasTouch, anyHover, anyFine) {
 }
 ```
 
-Some `hybrid` examples:
-- A touch capable Chromebook with Chrome browser registers that `hasTouch`, `anyHover`, and `anyFine` are all true (and that `hasTouchEventsApi` is true).
-- The Galaxy Note with stylus running the Chrome mobile browser registers that `hasTouch` and `anyFine` are true, but that `anyHover` is false (and that `hasTouchEventsApi` is true) - as a side note I think that since the stylus hovers effectively, the Note should register as `anyHover` true, but for some reason it doesn't.
-- The Microsoft Surface (and other Windows 10 touchscreen computers) register that `hasTouch`, `anyHover` and `anyFine` are all true for both Microsoft Edge and Chrome browsers (note that for the Edge browser `hasPointerEventsApi` is true, but `hasTouchEventsApi` is false, and for the Chrome browser `hasTouchEventsApi` is true, but `hasPointerEventsApi` is false).
-
 <!-- links -->
 [liveDetectionTest]: http://detect-it.rafrex.com/
-[onNpm]: https://www.npmjs.com/package/detect-it
 
 [detectHoverRepo]: https://github.com/rafrex/detect-hover
 [detectPointerRepo]: https://github.com/rafrex/detect-pointer
