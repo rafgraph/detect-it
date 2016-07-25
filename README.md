@@ -109,7 +109,7 @@ const detectIt = {
 
 Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
 
-#### Using `detect-it` to set event listeners
+#### Using `detect-it` to set event listeners (or just use [`the-listener`][theListener])
 ```javascript
 const dIt = detectIt;
 
@@ -160,6 +160,10 @@ if (dIt.primaryHover === 'hover') {
   // can add hover features
 }
 ```
+
+#### Real world examples using `detect-it`
+- [`the-listener`][theListener] - easily set complex mouse, touch and pointer listeners without conflicts
+- [`current-input`][currentInput] - detect the current input (mouse or touch) and fix the sticky hover problem on touch devices
 
 ### Part of the `detect-it` family
 - **`detect-it`**
@@ -213,6 +217,9 @@ Some `hybrid` examples:
 [detectPointerRepo]: https://github.com/rafrex/detect-pointer
 [detectTouchEventsRepo]: https://github.com/rafrex/detect-touch-events
 [detectPointerEventsRepo]: https://github.com/rafrex/detect-pointer-events
+
+[theListener]: https://github.com/rafrex/the-listener
+[currentInput]: https://github.com/rafrex/current-input
 
 [w3cMediaQueriesSpecLatestHover]: https://www.w3.org/TR/mediaqueries-4/#hover
 [w3cMediaQueriesSpecLatestPointer]: https://www.w3.org/TR/mediaqueries-4/#pointer
