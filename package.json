@@ -30,6 +30,7 @@
   "homepage": "https://github.com/rafrex/detect-it#readme",
   "dependencies": {
     "detect-hover": "^1.0.0",
+    "detect-passive-events": "^1.0.0",
     "detect-pointer": "^1.0.0",
     "detect-pointer-events": "^1.0.0",
     "detect-touch-events": "^1.0.0"

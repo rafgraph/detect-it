@@ -2,11 +2,13 @@ import detectHover from 'detect-hover';
 import detectPointer from 'detect-pointer';
 import detectTouchEvents from 'detect-touch-events';
 import detectPointerEvents from 'detect-pointer-events';
+import detectPassiveEvents from 'detect-passive-events';
 
 /*
  * detectIt object structure
  * const detectIt = {
  *   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
+ *   passiveEvents: boolean,
  *   hasTouchEventsApi: boolean,
  *   hasPointerEventsApi: boolean,
  *   hasTouch: boolean,
@@ -18,6 +20,7 @@ import detectPointerEvents from 'detect-pointer-events';
  *     detectPointer,
  *     detectTouchEvents,
  *     detectPointerEvents,
+ *     detectPassiveEvents,
  *   },
  *   update() {...},
  *   pointerEventsPrefix(value) {return value, value will only have prefix if requiresPrefix},
@@ -54,16 +57,20 @@ const detectIt = {
     detectPointer,
     detectTouchEvents,
     detectPointerEvents,
+    detectPassiveEvents,
   },
   update() {
     detectIt.state.detectHover.update();
     detectIt.state.detectPointer.update();
     detectIt.state.detectTouchEvents.update();
     detectIt.state.detectPointerEvents.update();
+    detectIt.state.detectPassiveEvents.update();
     detectIt.updateOnlyOwnProperties();
   },
   updateOnlyOwnProperties() {
     if (typeof window !== 'undefined') {
+      detectIt.passiveEvents = detectIt.state.detectPassiveEvents.hasSupport || false;
+
       detectIt.hasTouch =
         detectIt.state.detectTouchEvents.hasApi ||
         detectIt.state.detectPointerEvents.hasTouch ||
@@ -72,7 +79,7 @@ const detectIt = {
       detectIt.deviceType = determineDeviceType(
         detectIt.hasTouch,
         detectIt.state.detectHover.anyHover,
-        detectIt.state.detectPointer.anyFine
+        detectIt.state.detectPointer.anyFine,
       );
 
       detectIt.hasTouchEventsApi = detectIt.state.detectTouchEvents.hasApi;
@@ -80,7 +87,7 @@ const detectIt = {
 
       detectIt.maxTouchPoints = robustMax(
         detectIt.state.detectTouchEvents.maxTouchPoints,
-        detectIt.state.detectPointerEvents.maxTouchPoints
+        detectIt.state.detectPointerEvents.maxTouchPoints,
       );
 
       detectIt.primaryHover =

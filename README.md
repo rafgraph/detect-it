@@ -2,17 +2,18 @@
 
 Detect if a device is mouse only, touch only, or hybrid.
 
-[Live detection test][liveDetectionTest] &#8212; [view on npm][onNpm]
+[Live detection test][liveDetectionTest]
 
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
 
-`detect-it`'s state is a deterministic function of the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-pointer-events`][detectPointerEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
+`detect-it`'s state is a deterministic function of the state of the five micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], [`detect-pointer-events`][detectPointerEventsRepo], and [`detect-passive-events`][detectPassiveEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
 
 
 ### `detectIt` micro state machine
 ```javascript
 const detectIt = {
   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
+  passiveEvents: boolean,
   hasTouchEventsApi: boolean,
   hasPointerEventsApi: boolean,
   hasTouch: boolean,
@@ -26,6 +27,7 @@ const detectIt = {
     detectPointer,
     detectTouchEvents,
     detectPointerEvents,
+    detectPassiveEvents,
   },
 
   // updates the state of the four micro state machines it contains, and then updates its own state
@@ -48,6 +50,8 @@ import detectIt from 'detect-it';
 ```javascript
 // using the state
 detectIt.deviceType === 'mouseOnly' / 'touchOnly' / 'hybrid'; // the device type
+
+detectIt.passiveEvents === true // the browser supports passive event listeners
 
 detectIt.hasTouchEventsApi === true; // the browser supports the touch events api
 detectIt.hasPointerEventsApi === true; // the browser supports the pointer events api
@@ -84,6 +88,7 @@ element.addEventListener(detectIt.pointerEventsPrefix('pointerdown'), function..
  */
 const detectIt = {
   deviceType: 'mouseOnly',
+  passiveEvents: false,
   hasTouchEventsApi: false,
   hasPointerEventsApi: false,
   hasTouch: false,
@@ -98,6 +103,7 @@ const detectIt = {
  */
 const detectIt = {
   deviceType: 'touchOnly',
+  passiveEvents: false,
   hasTouchEventsApi: true,
   hasPointerEventsApi: false,
   hasTouch: true,
@@ -112,6 +118,13 @@ Note that the `update()` function is run once at the time of import to set the o
 #### Using `detect-it` to set event listeners (or just use [`the-listener`][theListener])
 ```javascript
 const dIt = detectIt;
+
+// if passive events are supported by the browser
+if (dIt.passiveEvents === true) {
+  document.addEventListener('scroll', handleScroll, { capture: false, passive: true });
+} else {
+  document.addEventListener('scroll', handleScroll, false);
+}
 
 // using mouse and touch events
 if (dIt.deviceType === 'mouseOnly') {
@@ -162,6 +175,7 @@ if (dIt.primaryHover === 'hover') {
 ```
 
 #### Real world examples using `detect-it`
+- [`react-interactive`][reactInteractive] - a better interactive state machine than css
 - [`the-listener`][theListener] - easily set complex mouse, touch and pointer listeners without conflicts
 - [`current-input`][currentInput] - detect the current input (mouse or touch) and fix the sticky hover problem on touch devices
 
@@ -171,15 +185,15 @@ if (dIt.primaryHover === 'hover') {
   - [`detect-pointer`][detectPointerRepo]
   - [`detect-touch-events`][detectTouchEventsRepo]
   - [`detect-pointer-events`][detectPointerEventsRepo]
+  - [`detect-passive-events`][detectPassiveEventsRepo]
 
 ### For more information
 - `hover` and `any-hover` media queries see the [W3C Media Queries Level 4 specification, hover section][w3cMediaQueriesSpecLatestHover]
 - `pointer` and `any-pointer` media queries see the [W3C Media Queries Level 4 specification, pointer section][w3cMediaQueriesSpecLatestPointer]
 - Touch events api see [MDN's Touch Events][mdnTouchEvents], or the [W3C Touch Events specification][w3cTouchEventsSpecLatest]
 - Pointer events api see [MDN's Pointer Events][mdnPointerEvents], or the [W3C Pointer Events specification][w3cPointerEventsSpecLatest]
-
-#### Thank you
-The work put into `detect-it` was made much easier by the excellent suite of [touch/pointer tests and demos][touchTests] put together by [Patrick H. Lauke][patrickHLauke]
+- General playground see the excellent suite of [touch/pointer tests and demos][touchTests] put together by Patrick H. Lauke
+- Passive events see this [Passive Events Explainer][passiveExplainer]
 
 ### Notes about detecting the `deviceType`
 I chose a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from a fine point and hover with a mouse, or a coarse touch with a finger, then it should be treated uniquely when considering how the user will interact with it, and so is placed in the broad `hybrid` category.
@@ -211,13 +225,14 @@ Some `hybrid` examples:
 
 <!-- links -->
 [liveDetectionTest]: http://detect-it.rafrex.com/
-[onNpm]: https://www.npmjs.com/package/detect-it
 
 [detectHoverRepo]: https://github.com/rafrex/detect-hover
 [detectPointerRepo]: https://github.com/rafrex/detect-pointer
 [detectTouchEventsRepo]: https://github.com/rafrex/detect-touch-events
+[detectPassiveEventsRepo]: https://github.com/rafrex/detect-passive-events
 [detectPointerEventsRepo]: https://github.com/rafrex/detect-pointer-events
 
+[reactInteractive]: https://github.com/rafrex/react-interactive
 [theListener]: https://github.com/rafrex/the-listener
 [currentInput]: https://github.com/rafrex/current-input
 
@@ -229,4 +244,4 @@ Some `hybrid` examples:
 [mdnPointerEvents]: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events
 
 [touchTests]: https://patrickhlauke.github.io/touch/
-[patrickHLauke]: https://github.com/patrickhlauke
+[passiveExplainer]: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
