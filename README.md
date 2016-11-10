@@ -21,7 +21,7 @@ const detectIt = {
   primaryHover: 'hover' / 'none',
   primaryPointer: 'fine' / 'coarse' / 'none',
 
-  // access to the four micro state machines that it contains
+  // access to the five micro state machines that it contains
   state: {
     detectHover,
     detectPointer,
@@ -30,7 +30,7 @@ const detectIt = {
     detectPassiveEvents,
   },
 
-  // updates the state of the four micro state machines it contains, and then updates its own state
+  // updates the state of the five micro state machines it contains, and then updates its own state
   update() {...},
 
   // easy access to detectPointerEvents' prefix function
@@ -68,6 +68,7 @@ detectIt.state.detectHover; // see the detect-hover repo for more info
 detectIt.state.detectPointer; // see the detect-pointer repo for more info
 detectIt.state.detectTouchEvents; // see the detect-touch-events repo for more info
 detectIt.state.detectPointerEvents; // see the detect-pointer-events repo for more info
+detectIt.state.detectPassiveEvents; // see the detect-passive-events repo for more info
 
 
 // updating the state - most apps won't need to use this at all
