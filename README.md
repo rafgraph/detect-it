@@ -1,8 +1,10 @@
-# Detect It
+# Detect It - v1
+
+> Note that Detect It v1 includes support for Pointer Events, if you don't need Pointer Events detection, use version 2.
 
 Detect if a device is mouse only, touch only, or hybrid.
 
-[Live detection test][liveDetectionTest]
+[Live detection test for v1][liveDetectionTest]
 
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
 
@@ -40,7 +42,7 @@ const detectIt = {
 
 ### Installing `detect-it`
 ```terminal
-$ npm install detect-it
+$ npm install --save detect-it@1.1.0
 ```
 
 ### Using `detect-it`
@@ -225,7 +227,7 @@ Some `hybrid` examples:
 - The Microsoft Surface (and other Windows 10 touchscreen computers) register that `hasTouch`, `anyHover` and `anyFine` are all true for both Microsoft Edge and Chrome browsers (note that for the Edge browser `hasPointerEventsApi` is true, but `hasTouchEventsApi` is false, and for the Chrome browser `hasTouchEventsApi` is true, but `hasPointerEventsApi` is false).
 
 <!-- links -->
-[liveDetectionTest]: http://detect-it.rafrex.com/
+[liveDetectionTest]: http://detect-it-v1.rafrex.com/
 
 [detectHoverRepo]: https://github.com/rafrex/detect-hover
 [detectPointerRepo]: https://github.com/rafrex/detect-pointer
