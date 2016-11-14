@@ -20,7 +20,8 @@
     "device",
     "mouse",
     "touch",
-    "hybrid"
+    "hybrid",
+    "passive events"
   ],
   "author": "Rafael Pedicini <code@rafrex.com>",
   "license": "MIT",
@@ -32,7 +33,6 @@
     "detect-hover": "^1.0.0",
     "detect-passive-events": "^1.0.0",
     "detect-pointer": "^1.0.0",
-    "detect-pointer-events": "^1.0.0",
     "detect-touch-events": "^1.0.0"
   },
   "devDependencies": {

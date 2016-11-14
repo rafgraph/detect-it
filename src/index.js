@@ -1,7 +1,6 @@
 import detectHover from 'detect-hover';
 import detectPointer from 'detect-pointer';
 import detectTouchEvents from 'detect-touch-events';
-import detectPointerEvents from 'detect-pointer-events';
 import detectPassiveEvents from 'detect-passive-events';
 
 /*
@@ -9,9 +8,8 @@ import detectPassiveEvents from 'detect-passive-events';
  * const detectIt = {
  *   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
  *   passiveEvents: boolean,
- *   hasTouchEventsApi: boolean,
- *   hasPointerEventsApi: boolean,
  *   hasTouch: boolean,
+ *   hasMouse: boolean,
  *   maxTouchPoints: number,
  *   primaryHover: 'hover' / 'none',
  *   primaryPointer: 'fine' / 'coarse' / 'none',
@@ -19,21 +17,11 @@ import detectPassiveEvents from 'detect-passive-events';
  *     detectHover,
  *     detectPointer,
  *     detectTouchEvents,
- *     detectPointerEvents,
  *     detectPassiveEvents,
  *   },
  *   update() {...},
- *   pointerEventsPrefix(value) {return value, value will only have prefix if requiresPrefix},
  * }
  */
-
-function robustMax(a, b) {
-  function isNum(value) { return typeof value === 'number'; }
-  if (isNum(a) && isNum(b)) return Math.max(a, b);
-  if (isNum(a)) return a;
-  if (isNum(b)) return b;
-  return undefined;
-}
 
 function determineDeviceType(hasTouch, anyHover, anyFine) {
   /*
@@ -56,14 +44,12 @@ const detectIt = {
     detectHover,
     detectPointer,
     detectTouchEvents,
-    detectPointerEvents,
     detectPassiveEvents,
   },
   update() {
     detectIt.state.detectHover.update();
     detectIt.state.detectPointer.update();
     detectIt.state.detectTouchEvents.update();
-    detectIt.state.detectPointerEvents.update();
     detectIt.state.detectPassiveEvents.update();
     detectIt.updateOnlyOwnProperties();
   },
@@ -71,10 +57,7 @@ const detectIt = {
     if (typeof window !== 'undefined') {
       detectIt.passiveEvents = detectIt.state.detectPassiveEvents.hasSupport || false;
 
-      detectIt.hasTouch =
-        detectIt.state.detectTouchEvents.hasApi ||
-        detectIt.state.detectPointerEvents.hasTouch ||
-        false;
+      detectIt.hasTouch = detectIt.state.detectTouchEvents.hasApi || false;
 
       detectIt.deviceType = determineDeviceType(
         detectIt.hasTouch,
@@ -82,13 +65,8 @@ const detectIt = {
         detectIt.state.detectPointer.anyFine,
       );
 
-      detectIt.hasTouchEventsApi = detectIt.state.detectTouchEvents.hasApi;
-      detectIt.hasPointerEventsApi = detectIt.state.detectPointerEvents.hasApi;
-
-      detectIt.maxTouchPoints = robustMax(
-        detectIt.state.detectTouchEvents.maxTouchPoints,
-        detectIt.state.detectPointerEvents.maxTouchPoints,
-      );
+      detectIt.hasMouse = detectIt.deviceType !== 'touchOnly';
+      detectIt.maxTouchPoints = detectIt.state.detectTouchEvents.maxTouchPoints;
 
       detectIt.primaryHover =
         (detectIt.state.detectHover.hover && 'hover') ||
@@ -112,7 +90,6 @@ const detectIt = {
         (detectIt.deviceType === 'touchOnly' && 'coarse') || undefined;
     }
   },
-  pointerEventsPrefix: detectPointerEvents.prefix,
 };
 
 detectIt.updateOnlyOwnProperties();
