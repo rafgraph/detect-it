@@ -16,7 +16,7 @@ declare namespace detectIt
   const maxTouchPoints: number;
   const passiveEvents: boolean;
   const primaryHover: string = 'hover' | 'none';
-  const primaryPointer: string = 'fine' | 'coarse' | 'none';
+  const primaryPointer: string = 'coarse' | 'fine' | 'none';
 
   const state = {
     detectHover: detectHover,
