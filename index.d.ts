@@ -10,7 +10,7 @@ import detectTouchEvents from 'detect-touch-events';
 
 declare namespace detectIt
 {
-  const deviceType: string = 'mouseOnly' | 'touchOnly' | 'hybrid';
+  const deviceType: string = 'hybrid' | 'mouseOnly' | 'touchOnly';
   const hasMouse: boolean;
   const hasTouch: boolean;
   const maxTouchPoints: number;
