@@ -4,9 +4,9 @@
   "description": "Detect if a device is mouse only, touch only, or hybrid",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib && babel src --presets babel-preset-env -d lib",
+    "build": "rm -rf lib && babel src -d lib --presets=env",
     "prepublish": "npm run build",
-    "dev": "npm link && babel src --presets babel-preset-env --watch -d lib"
+    "dev": "npm link && babel src -d lib --watch --presets=env"
   },
   "files": [
     "lib",
