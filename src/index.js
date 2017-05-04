@@ -57,7 +57,7 @@ const detectIt = {
     if (typeof window !== 'undefined') {
       detectIt.passiveEvents = detectIt.state.detectPassiveEvents.hasSupport || false;
 
-      detectIt.hasTouch = detectIt.state.detectTouchEvents.hasApi || false;
+      detectIt.hasTouch = detectIt.state.detectTouchEvents.hasSupport || false;
 
       detectIt.deviceType = determineDeviceType(
         detectIt.hasTouch,
@@ -66,7 +66,6 @@ const detectIt = {
       );
 
       detectIt.hasMouse = detectIt.deviceType !== 'touchOnly';
-      detectIt.maxTouchPoints = detectIt.state.detectTouchEvents.maxTouchPoints;
 
       detectIt.primaryHover =
         (detectIt.state.detectHover.hover && 'hover') ||
