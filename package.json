@@ -1,6 +1,6 @@
 {
   "name": "detect-it",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
   "main": "lib/index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "detect-hover": "^1.0.1",
     "detect-passive-events": "^1.0.2",
     "detect-pointer": "^1.0.1",
-    "detect-touch-events": "^1.0.1"
+    "detect-touch-events": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
