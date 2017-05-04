@@ -23,19 +23,29 @@ import detectPassiveEvents from 'detect-passive-events';
  * }
  */
 
-function determineDeviceType(hasTouch, anyHover, anyFine) {
-  /*
-   * A hybrid device is one that both hasTouch and any input device can hover
-   * or has a fine pointer.
-   */
+function determineDeviceType(hasTouch, anyHover, anyFine, state) {
+  // A hybrid device is one that both hasTouch and any input device can hover
+  // or has a fine pointer.
   if (hasTouch && (anyHover || anyFine)) return 'hybrid';
 
-  /*
-   * In almost all cases a device that doesn’t support touch will have a mouse,
-   * but there may be rare exceptions. Note that it doesn’t work to do additional tests
-   * based on hover and pointer media queries as older browsers don’t support these.
-   * Essentially, 'mouseOnly' is the default.
-   */
+  // workaround for browsers that have the touch events api,
+  // and have implemented Level 4 media queries but not the
+  // hover and pointer media queries, so the tests are all false (notable Firefox)
+  // if it hasTouch, no pointer and hover support, and on an android assume it's touchOnly
+  // if it hasTouch, no pointer and hover support, and not on an android assume it's a hybrid
+  if (hasTouch &&
+  Object.keys(state.detectHover).filter(key => key !== 'update').every(key => state.detectHover[key] === false) &&
+  Object.keys(state.detectPointer).filter(key => key !== 'update').every(key => state.detectPointer[key] === false)) {
+    if (window.navigator && /android/.test(window.navigator.userAgent.toLowerCase())) {
+      return 'touchOnly';
+    }
+    return 'hybrid';
+  }
+
+  // In almost all cases a device that doesn’t support touch will have a mouse,
+  // but there may be rare exceptions. Note that it doesn’t work to do additional tests
+  // based on hover and pointer media queries as older browsers don’t support these.
+  // Essentially, 'mouseOnly' is the default.
   return hasTouch ? 'touchOnly' : 'mouseOnly';
 }
 
@@ -63,6 +73,7 @@ const detectIt = {
         detectIt.hasTouch,
         detectIt.state.detectHover.anyHover,
         detectIt.state.detectPointer.anyFine,
+        detectIt.state,
       );
 
       detectIt.hasMouse = detectIt.deviceType !== 'touchOnly';
