@@ -78,26 +78,15 @@ const detectIt = {
 
       detectIt.hasMouse = detectIt.deviceType !== 'touchOnly';
 
-      detectIt.primaryHover =
-        (detectIt.state.detectHover.hover && 'hover') ||
-        (detectIt.state.detectHover.none && 'none') ||
-        // if it's a mouseOnly device that doesn't support level 4 media queries,
-        // then assume it hovers
-        (detectIt.deviceType === 'mouseOnly' && 'hover') ||
-        // if it's a touchOnly device that doesn't support level 4 media queries,
-        // then assume it doesn't hover, otherwise it's undefined
-        (detectIt.deviceType === 'touchOnly' && 'none') || undefined;
-
-      detectIt.primaryPointer =
-        (detectIt.state.detectPointer.fine && 'fine') ||
-        (detectIt.state.detectPointer.coarse && 'coarse') ||
-        (detectIt.state.detectPointer.none && 'none') ||
-        // if it's a mouseOnly device that doesn't support level 4 media queries,
-        // then assume it has a fine pointer
-        (detectIt.deviceType === 'mouseOnly' && 'fine') ||
-        // if it's a touchOnly device that doesn't support level 4 media queries,
-        // then assume it has a coarse pointer, otherwise it's undefined
-        (detectIt.deviceType === 'touchOnly' && 'coarse') || undefined;
+      detectIt.primaryInput =
+        (detectIt.deviceType === 'mouseOnly' && 'mouse') ||
+        (detectIt.deviceType === 'touchOnly' && 'touch') ||
+        // deviceType is hybrid:
+        (detectIt.state.detectHover.hover && 'mouse') ||
+        (detectIt.state.detectHover.none && 'touch') ||
+        // if there's no support for hover media queries but detectIt determined it's
+        // a hybrid  device, then assume it's a mouse first device
+        'mouse';
     }
   },
 };
