@@ -34,6 +34,8 @@ const detectIt = {
 
 ### Installing `detect-it`
 ```terminal
+$ yarn add detect-it
+# OR
 $ npm install --save detect-it
 ```
 
