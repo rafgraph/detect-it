@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib && babel src -d lib --presets=env",
-    "prepublish": "npm run build",
-    "dev": "npm link && babel src -d lib --watch --presets=env"
+    "prepublish": "yarn build",
+    "dev": "yarn link && babel src -d lib --watch --presets=env"
   },
   "files": [
     "lib",
