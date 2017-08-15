@@ -87,6 +87,22 @@ const detectIt = {
         // if there's no support for hover media queries but detectIt determined it's
         // a hybrid  device, then assume it's a mouse first device
         'mouse';
+
+      // issue with Windows Chrome on hybrid devices starting in version 59 where
+      // media queries represent a touch only device, so if the browser is an
+      // affected Windows Chrome version and hasTouch,
+      // then assume it's a hybrid with primaryInput mouse
+      // see https://github.com/rafrex/detect-it/issues/8
+      const isAffectedWindowsChromeVersion =
+        /windows/.test(window.navigator.userAgent.toLowerCase()) &&
+        /chrome/.test(window.navigator.userAgent.toLowerCase()) &&
+        parseInt(/Chrome\/([0-9.]+)/.exec(navigator.userAgent)[1], 10) >= 59;
+
+      if (isAffectedWindowsChromeVersion && detectIt.hasTouch) {
+        detectIt.deviceType = 'hybrid';
+        detectIt.hasMouse = true;
+        detectIt.primaryInput = 'mouse';
+      }
     }
   },
 };
