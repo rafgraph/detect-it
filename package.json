@@ -37,7 +37,7 @@
     "detect-touch-events": "^2.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
