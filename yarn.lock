@@ -896,9 +896,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-detect-passive-events@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/detect-passive-events/-/detect-passive-events-1.0.3.tgz#8a05fd0583050bbd8622b769fa54f655761fea7e"
+detect-passive-events@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/detect-passive-events/-/detect-passive-events-1.0.4.tgz#6ed477e6e5bceb79079735dcd357789d37f9a91a"
 
 detect-pointer@^1.0.2:
   version "1.0.2"
