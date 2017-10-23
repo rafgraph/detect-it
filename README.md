@@ -1,4 +1,4 @@
-# Detect It
+# Detective
 
 Detect if a device is mouse only, touch only, or hybrid, and if it supports passive event listeners.
 
