@@ -92,11 +92,13 @@ const detectIt = {
       // media queries represent a touch only device, so if the browser is an
       // affected Windows Chrome version and hasTouch,
       // then assume it's a hybrid with primaryInput mouse
+      // note that version 62 of Chrome fixes this issue
       // see https://github.com/rafrex/detect-it/issues/8
+      const inVersionRange = version => version >= 59 && version < 62;
       const isAffectedWindowsChromeVersion =
         /windows/.test(window.navigator.userAgent.toLowerCase()) &&
         /chrome/.test(window.navigator.userAgent.toLowerCase()) &&
-        parseInt(/Chrome\/([0-9.]+)/.exec(navigator.userAgent)[1], 10) >= 59;
+        inVersionRange(parseInt(/Chrome\/([0-9.]+)/.exec(navigator.userAgent)[1], 10));
 
       if (isAffectedWindowsChromeVersion && detectIt.hasTouch) {
         detectIt.deviceType = 'hybrid';
