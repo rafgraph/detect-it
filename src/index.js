@@ -82,8 +82,8 @@ const detectIt = {
         (detectIt.deviceType === 'mouseOnly' && 'mouse') ||
         (detectIt.deviceType === 'touchOnly' && 'touch') ||
         // deviceType is hybrid:
-        (detectIt.state.detectHover.hover && 'mouse') ||
-        (detectIt.state.detectHover.none && 'touch') ||
+        (detectIt.state.detectPointer.fine && 'mouse') ||
+        (detectIt.state.detectPointer.coarse && 'touch') ||
         // if there's no support for hover media queries but detectIt determined it's
         // a hybrid  device, then assume it's a mouse first device
         'mouse';
