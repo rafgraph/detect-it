@@ -93,7 +93,7 @@ const detectIt = {
       // affected Windows Chrome version and hasTouch,
       // then assume it's a hybrid with primaryInput mouse
       // note that version 62 of Chrome fixes this issue
-      // see https://github.com/rafrex/detect-it/issues/8
+      // see https://github.com/rafgraph/detect-it/issues/8
       const inVersionRange = version => version >= 59 && version < 62;
       const isAffectedWindowsChromeVersion =
         /windows/.test(window.navigator.userAgent.toLowerCase()) &&

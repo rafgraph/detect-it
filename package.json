@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rafrex/detect-it.git"
+    "url": "git+https://github.com/rafgraph/detect-it.git"
   },
   "keywords": [
     "detect",
@@ -24,17 +24,17 @@
     "hybrid",
     "passive events"
   ],
-  "author": "Rafael Pedicini <code@rafrex.com>",
+  "author": "Rafael Pedicini <rafael@rafgraph.dev>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rafrex/detect-it/issues"
+    "url": "https://github.com/rafgraph/detect-it/issues"
   },
-  "homepage": "https://github.com/rafrex/detect-it#readme",
+  "homepage": "https://github.com/rafgraph/detect-it#readme",
   "dependencies": {
-    "detect-hover": "^1.0.2",
-    "detect-passive-events": "^1.0.4",
-    "detect-pointer": "^1.0.2",
-    "detect-touch-events": "^2.0.1"
+    "detect-hover": "^1.0.3",
+    "detect-passive-events": "^1.0.5",
+    "detect-pointer": "^1.0.3",
+    "detect-touch-events": "^2.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

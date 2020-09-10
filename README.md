@@ -4,6 +4,8 @@ Detect if a device is mouse only, touch only, or hybrid, and if it supports pass
 
 [Live detection test][liveDetectionTest]
 
+![npm](https://img.shields.io/npm/dm/detect-it)
+
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
 
 `detect-it`'s state is based on the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-passive-events`][detectPassiveEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
@@ -164,19 +166,19 @@ Some `hybrid` examples:
   - When using Microsoft's Edge browser `hasTouch` is false because Edge doesn't support the Touch Events API, so it registers as a `mouseOnly` device. To access the touch capabilities in Edge you have to use Pointer Events. If you want Edge to register as a `hybrid` device then use [Detect It v1.1][detectItv1.1] which supports Pointer Events. Note that touches will still fire mouse events, so if you don't set Pointer Event listeners, touch input will act like a mouse.
 
 <!-- links -->
-[liveDetectionTest]: http://detect-it.rafrex.com/
+[liveDetectionTest]: https://detect-it.rafgraph.dev/
 
-[detectHoverRepo]: https://github.com/rafrex/detect-hover
-[detectPointerRepo]: https://github.com/rafrex/detect-pointer
-[detectTouchEventsRepo]: https://github.com/rafrex/detect-touch-events
-[detectPassiveEventsRepo]: https://github.com/rafrex/detect-passive-events
-[detectItv1.1]: https://github.com/rafrex/detect-it/tree/v1.1.0
+[detectHoverRepo]: https://github.com/rafgraph/detect-hover
+[detectPointerRepo]: https://github.com/rafgraph/detect-pointer
+[detectTouchEventsRepo]: https://github.com/rafgraph/detect-touch-events
+[detectPassiveEventsRepo]: https://github.com/rafgraph/detect-passive-events
+[detectItv1.1]: https://github.com/rafgraph/detect-it/tree/v1.1.0
 
-[reactInteractive]: https://github.com/rafrex/react-interactive
-[theListener]: https://github.com/rafrex/the-listener
-[currentInput]: https://github.com/rafrex/current-input
+[reactInteractive]: https://github.com/rafgraph/react-interactive
+[theListener]: https://github.com/rafgraph/the-listener
+[currentInput]: https://github.com/rafgraph/current-input
 
-[canIUsePointerEvents]: http://caniuse.com/#feat=pointer
+[canIUsePointerEvents]: https://caniuse.com/#feat=pointer
 [w3cMediaQueriesSpecLatestHover]: https://www.w3.org/TR/mediaqueries-4/#hover
 [w3cMediaQueriesSpecLatestPointer]: https://www.w3.org/TR/mediaqueries-4/#pointer
 [mdnTouchEvents]: https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
