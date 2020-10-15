@@ -33,9 +33,15 @@ function determineDeviceType(hasTouch, anyHover, anyFine, state) {
   // hover and pointer media queries, so the tests are all false (notable Firefox)
   // if it hasTouch, no pointer and hover support, and on an android assume it's touchOnly
   // if it hasTouch, no pointer and hover support, and not on an android assume it's a hybrid
-  if (hasTouch &&
-  Object.keys(state.detectHover).filter(key => key !== 'update').every(key => state.detectHover[key] === false) &&
-  Object.keys(state.detectPointer).filter(key => key !== 'update').every(key => state.detectPointer[key] === false)) {
+  if (
+    hasTouch &&
+    Object.keys(state.detectHover)
+      .filter((key) => key !== 'update')
+      .every((key) => state.detectHover[key] === false) &&
+    Object.keys(state.detectPointer)
+      .filter((key) => key !== 'update')
+      .every((key) => state.detectPointer[key] === false)
+  ) {
     if (window.navigator && /android/.test(window.navigator.userAgent.toLowerCase())) {
       return 'touchOnly';
     }
@@ -94,7 +100,7 @@ const detectIt = {
       // then assume it's a hybrid with primaryInput mouse
       // note that version 62 of Chrome fixes this issue
       // see https://github.com/rafgraph/detect-it/issues/8
-      const inVersionRange = version => version >= 59 && version < 62;
+      const inVersionRange = (version) => version >= 59 && version < 62;
       const isAffectedWindowsChromeVersion =
         /windows/.test(window.navigator.userAgent.toLowerCase()) &&
         /chrome/.test(window.navigator.userAgent.toLowerCase()) &&

@@ -41,6 +41,22 @@
     "detect-touch-events": "^2.0.2"
   },
   "devDependencies": {
-    "microbundle": "^0.12.4"
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "microbundle": "^0.12.4",
+    "prettier": "^2.1.2"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 100
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*": "prettier --write --ignore-unknown"
   }
 }
