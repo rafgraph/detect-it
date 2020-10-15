@@ -1,6 +1,6 @@
 {
   "name": "detect-it",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
   "main": "lib/index.js",
   "scripts": {
