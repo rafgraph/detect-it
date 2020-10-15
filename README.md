@@ -1,16 +1,16 @@
-# Detect It
+# Detect It - v3
+
+> The most recent version of [`detect-it` is available here](https://github.com/rafgraph/detect-it)
 
 Detect if a device is mouse only, touch only, or hybrid, and if it supports passive event listeners.
 
-[Live detection test][liveDetectionTest]
+[Live detection test for v3][liveDetectionTest]
 
-![npm](https://img.shields.io/npm/dm/detect-it)
+[![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it/3?color=purple)](https://bundlephobia.com/result?p=detect-it@3)
 
 Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
 
 `detect-it`'s state is based on the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-passive-events`][detectPassiveEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
-
-Note that Detect It has removed support for Pointer Events detection because they're just not relevant enough (support for less than 60% of users, [see Can I Use][canIUsePointerEvents], and not supported by React). If you need Pointer Events detection, use [Detect It v1.1][detectItv1.1].
 
 ### `detectIt` micro state machine
 ```javascript
@@ -166,7 +166,7 @@ Some `hybrid` examples:
   - When using Microsoft's Edge browser `hasTouch` is false because Edge doesn't support the Touch Events API, so it registers as a `mouseOnly` device. To access the touch capabilities in Edge you have to use Pointer Events. If you want Edge to register as a `hybrid` device then use [Detect It v1.1][detectItv1.1] which supports Pointer Events. Note that touches will still fire mouse events, so if you don't set Pointer Event listeners, touch input will act like a mouse.
 
 <!-- links -->
-[liveDetectionTest]: https://detect-it.rafgraph.dev/
+[liveDetectionTest]: https://detect-it-v3.rafgraph.dev/
 
 [detectHoverRepo]: https://github.com/rafgraph/detect-hover
 [detectPointerRepo]: https://github.com/rafgraph/detect-pointer
