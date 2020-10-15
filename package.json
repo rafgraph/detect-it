@@ -2,14 +2,18 @@
   "name": "detect-it",
   "version": "3.0.7",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
-  "main": "lib/index.js",
+  "source": "src/index.js",
+  "main": "dist/detect-it.js",
+  "umd:main": "dist/detect-it.umd.min.js",
+  "module": "dist/detect-it.esm.js",
   "scripts": {
-    "build": "rm -rf lib && babel src -d lib --presets=env",
-    "prepublish": "yarn build",
-    "dev": "yarn link && babel src -d lib --watch --presets=env"
+    "dev": "npm link && npm run watch && npm unlink",
+    "watch": "rm -rf dist && trap 'exit 0' SIGINT; microbundle watch --format esm,cjs --no-compress --strict & microbundle watch --format umd --compress --strict --external peerDependencies",
+    "build": "rm -rf dist && microbundle build --format esm,cjs --no-compress --strict && microbundle build --format umd --compress --strict --external peerDependencies",
+    "prepublishOnly": "npm run build"
   },
   "files": [
-    "lib",
+    "dist",
     "src"
   ],
   "repository": {
@@ -37,11 +41,6 @@
     "detect-touch-events": "^2.0.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.1.3",
-    "eslint-plugin-import": "^2.2.0"
+    "microbundle": "^0.12.4"
   }
 }
