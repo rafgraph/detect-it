@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/rafgraph/detect-it/issues"
   },
-  "homepage": "https://github.com/rafgraph/detect-it#readme",
+  "homepage": "https://detect-it.rafgraph.dev",
   "dependencies": {
     "detect-hover": "^1.0.3",
     "detect-passive-events": "^1.0.5",
