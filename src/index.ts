@@ -23,10 +23,8 @@ export const rawTests = {
   pointer: {
     fine: mm('(pointer: fine)').matches,
     coarse: mm('(pointer: coarse)').matches,
-    none: mm('(pointer: none)').matches,
     anyFine: mm('(any-pointer: fine)').matches,
     anyCoarse: mm('(any-pointer: coarse)').matches,
-    anyNone: mm('(any-pointer: none)').matches,
   },
 };
 
@@ -39,9 +37,10 @@ export const supportsTouchEvents =
 
 export const supportsPointerEvents = rawTests.pointerEvents.PointerEventInWindow;
 
-// note that some modern browsers may support the TouchEvents api (TouchEventInWindow true)
-// even when not running on a touch device, in which case ontouchstartInWindow will be false
-// so only use ontouchstartInWindow or PointerEvents maxTouchPoints to determine hasTouch
+// if browser supports PointerEvents use is PointerEvents maxTouchPoints,
+// otherwise use TouchEvents, but note that some browsers may support
+// the TouchEvents api (TouchEventInWindow true) even when not running on a touch device,
+// but ontouchstartInWindow will still be false, so only use ontouchstartInWindow
 const hasTouch =
   rawTests.pointerEvents.maxTouchPoints > 0 || rawTests.touchEvents.ontouchstartInWindow;
 
@@ -51,16 +50,16 @@ const userAgent = w.navigator.userAgent || '';
 // https://caniuse.com/css-media-interaction
 const isAndriod = /android/.test(userAgent.toLowerCase());
 
-// iPads now support a mouse that can hover, however, the media query interaction feature results
-// always register iPads as only having a coarse pointer that can't hover (anyFine and anyHover are always false),
-// probably because the mouse can be easily added/removed multiple times in single browsing session
-// and to change the media query results mid-session would cause erratic website behavior,
-// unfortunately the media query results don't indicate a hybrid device, which iPads should be classified as,
+// iPads now support a mouse that can hover, however the media query interaction
+// feature results always say iPads only have a coarse pointer that can't hover
+// even when a mouse is connected (anyFine and anyHover are always false), unfortunately
+// the media query results don't indicate a hybrid device, which iPads should be classified as,
 // so determine if it is an iPad so can indicate it should be treated as a hybrid device with anyHover true
 const isIPad =
   rawTests.pointer.coarse &&
   // both iPad and iPhone can "request desktop site", which sets the userAgent to Macintosh
-  // so need to check both userAgents and screen size
+  // so need to check both userAgents to determine if it is an iOS device
+  // and screen size to separate iPad from iPhone
   (/iPad/.test(userAgent) || /Macintosh/.test(userAgent)) &&
   Math.min(w.screen.width || 0, w.screen.height || 0) >= 768;
 
@@ -71,7 +70,7 @@ const hasCoarsePrimaryPointer =
   // note that all iOS devices support media query interaction features
   (!rawTests.pointer.fine && isAndriod);
 
-const hasAnyFineOrAnyHoverPointer =
+const hasAnyHoverOrAnyFinePointer =
   rawTests.pointer.anyFine ||
   rawTests.hover.anyHover ||
   // if no anyFine, no anyHover, and no anyCoarse then browser doesn't support media query interaction features
@@ -83,7 +82,7 @@ const hasAnyFineOrAnyHoverPointer =
 // a hybrid device is one that both hasTouch and any input can hover or has a fine pointer
 // if it's not a hybrid, then if it hasTouch it's touchOnly, otherwise it's mouseOnly
 export const deviceType: 'mouseOnly' | 'touchOnly' | 'hybrid' =
-  hasTouch && hasAnyFineOrAnyHoverPointer ? 'hybrid' : hasTouch ? 'touchOnly' : 'mouseOnly';
+  hasTouch && hasAnyHoverOrAnyFinePointer ? 'hybrid' : hasTouch ? 'touchOnly' : 'mouseOnly';
 
 export const primaryInput: 'mouse' | 'touch' =
   deviceType === 'mouseOnly'
