@@ -2,15 +2,18 @@
   "name": "detect-it",
   "version": "3.0.7",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
-  "source": "src/index.js",
+  "source": "src/index.ts",
   "main": "dist/detect-it.js",
   "umd:main": "dist/detect-it.umd.min.js",
   "module": "dist/detect-it.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "dev": "npm link && npm run watch && npm unlink",
     "watch": "rm -rf dist && trap 'exit 0' SIGINT; microbundle watch --format esm,cjs --no-compress --strict & microbundle watch --format umd --compress --strict --external peerDependencies",
     "build": "rm -rf dist && microbundle build --format esm,cjs --no-compress --strict && microbundle build --format umd --compress --strict --external peerDependencies",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "tsc": "tsc --watch"
   },
   "files": [
     "dist",
@@ -35,16 +38,14 @@
   },
   "homepage": "https://detect-it.rafgraph.dev",
   "dependencies": {
-    "detect-hover": "^1.0.3",
-    "detect-passive-events": "^1.0.5",
-    "detect-pointer": "^1.0.3",
-    "detect-touch-events": "^2.0.2"
+    "detect-passive-events": "^2.0.1"
   },
   "devDependencies": {
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
     "microbundle": "^0.12.4",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.3"
   },
   "prettier": {
     "trailingComma": "all",
