@@ -28,6 +28,7 @@ const options = {
 // (which was used previously), because Edge v15 throws an error
 // when providing a null callback.
 // https://github.com/rafgraph/detect-passive-events/pull/3
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 w.addEventListener && w.addEventListener('p', noop, options);
 w.removeEventListener && w.removeEventListener('p', noop, false);
