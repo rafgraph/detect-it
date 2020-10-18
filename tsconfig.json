@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./generated-tsc",
+    "noEmit": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
