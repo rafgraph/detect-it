@@ -74,10 +74,11 @@ const isIPad =
 
 const hasCoarsePrimaryPointer =
   (matchMedia('(pointer: coarse)').matches ||
-    // if pointer is not coarse and not fine then the browser doesn't support
-    // interaction media queries, so if it's an android assume it has a coarse primary pointer
-    (!matchMedia('(pointer: fine)').matches && /android/i.test(userAgent))) &&
-  // bug in firefox on hybrid windows devices where the interaction media queries
+    // if the pointer is not coarse and not fine then the browser doesn't support
+    // interaction media queries (see https://caniuse.com/css-media-interaction)
+    // so if it has onTouchStartInWindow assume it has a coarse primary pointer
+    (!matchMedia('(pointer: fine)').matches && onTouchStartInWindow)) &&
+  // bug in firefox (as of v81) on hybrid windows devices where the interaction media queries
   // always indicate a touch only device (only has a coarse pointer that can't hover)
   // so assume that the primary pointer is not coarse for firefox windows
   !/Windows.*Firefox/.test(userAgent);
