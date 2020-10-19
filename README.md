@@ -2,6 +2,10 @@
 
 Detects if a device is `mouseOnly`, `touchOnly`, or `hybrid`, and if the primary input is `mouse` or `touch`. Also detects if the browser supports the Pointer Events API, the Touch Events API, and passive event listeners. Detect It is tree-shakable and side-effect free.
 
+This is useful for creating device responsive UX and responding to user interactions. When creating apps with device responsive UX it is important to know what the user can do. Can they hover? Can they swipe? Etc. Once it's known what the user can do, the next question is how does the app listen for user input. For example, it's not enough to know that the user is on a touch device, the app also needs to know how to listen for touch input, should the app set Pointer Event listeners or Touch Event listeners? For more on this see the [Recommended usage](#recommended-usage) section.
+
+---
+
 [Live detection test](https://detect-it.rafgraph.dev) (code in the [demo repo](https://github.com/rafgraph/detect-it-demo))
 
 [![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it@next?color=purple)](https://bundlephobia.com/result?p=detect-it@next) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
@@ -90,6 +94,24 @@ if (supportsPassiveEvents) {
 } else {
   // passive events are not supported by the browser
   document.addEventListener('scroll', handleScroll, false);
+}
+```
+
+---
+
+## Pre-built option served from Unpkg CDN
+
+Optionally, instead of using `npm install` you can load Detect It directly in the browser. A minified UMD version is available from Unpkg for this purpose.
+
+```html
+<!-- in index.html -->
+<script src="https://unpkg.com/detect-it/dist/detect-it.umd.min.js"></script>
+```
+
+```js
+// it will be available on the window as detectIt
+if (window.detectIt.primaryInput === 'touch') {
+  // tailor UX for touch input 
 }
 ```
 
