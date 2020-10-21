@@ -2,14 +2,24 @@
   "name": "detect-it",
   "version": "3.0.7",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
-  "main": "lib/index.js",
+  "source": "src/index.ts",
+  "main": "dist/detect-it.js",
+  "umd:main": "dist/detect-it.umd.min.js",
+  "module": "dist/detect-it.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "rm -rf lib && babel src -d lib --presets=env",
-    "prepublish": "yarn build",
-    "dev": "yarn link && babel src -d lib --watch --presets=env"
+    "dev": "npm link && npm run watch && npm unlink",
+    "watch": "rm -rf dist && trap 'exit 0' SIGINT; microbundle watch --format esm,cjs --no-compress --strict --tsconfig tsconfig.build.json & microbundle watch --format umd --compress --strict --tsconfig tsconfig.build.json --external peerDependencies",
+    "build": "rm -rf dist && microbundle build --format esm,cjs --no-compress --strict --tsconfig tsconfig.build.json && microbundle build --format umd --compress --strict --tsconfig tsconfig.build.json --external peerDependencies",
+    "prepublishOnly": "npm run build",
+    "tsc": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "coverage": "npx live-server coverage/lcov-report"
   },
   "files": [
-    "lib",
+    "dist",
     "src"
   ],
   "repository": {
@@ -29,19 +39,62 @@
   "bugs": {
     "url": "https://github.com/rafgraph/detect-it/issues"
   },
-  "homepage": "https://github.com/rafgraph/detect-it#readme",
-  "dependencies": {
-    "detect-hover": "^1.0.3",
-    "detect-passive-events": "^1.0.5",
-    "detect-pointer": "^1.0.3",
-    "detect-touch-events": "^2.0.2"
-  },
+  "homepage": "https://detect-it.rafgraph.dev",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.1.3",
-    "eslint-plugin-import": "^2.2.0"
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "husky": "^4.3.0",
+    "jest": "^26.5.3",
+    "lint-staged": "^10.4.0",
+    "microbundle": "^0.12.4",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "project": "./tsconfig.json",
+      "createDefaultProgram": true
+    },
+    "env": {
+      "browser": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:import/typescript",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "prettier",
+      "prettier/@typescript-eslint"
+    ],
+    "rules": {
+      "import/no-default-export": "error"
+    },
+    "ignorePatterns": [
+      "dist",
+      "node_modules",
+      "jest.config.js"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 100
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*": "prettier --write --ignore-unknown"
   }
 }

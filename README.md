@@ -1,188 +1,266 @@
-# Detect It - v3
+# Detect It
 
-> The most recent version of [`detect-it` is available here](https://github.com/rafgraph/detect-it)
+Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`, and if the primary input is `mouse` or `touch`. Also detects if the browser supports the Pointer Events API, the Touch Events API, and passive event listeners. Detect It is tree-shakable and side-effect free.
 
-Detect if a device is mouse only, touch only, or hybrid, and if it supports passive event listeners.
+This is useful for creating device responsive UX and responding to user interactions. When creating apps with device responsive UX it is important to know what the user can do. Can they hover? Can they swipe? Etc. Once it's known what the user can do, the next question is how does the app listen for user input. For example, it's not enough to know that the user is on a touch device, the app also needs to know how to listen for touch input, should the app set PointerEvent listeners or TouchEvent listeners? For more on this see the [Recommended usage](#recommended-usage) section.
 
-[Live detection test for v3][liveDetectionTest]
+---
 
-[![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it/3?color=purple)](https://bundlephobia.com/result?p=detect-it@3)
+[Live detection test](https://detect-it.rafgraph.dev) (code in the [demo repo](https://github.com/rafgraph/detect-it-demo))
 
-Exports a reference to a singleton object (a micro state machine with an update function) with its state set to if the device is mouse only, touch only, or hybrid (and other related info about the device), as well as an `update()` function which updates the object's state.
+[![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it@next?color=purple)](https://bundlephobia.com/result?p=detect-it@next) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
 
-`detect-it`'s state is based on the state of the four micro state machines that it contains ([`detect-hover`][detectHoverRepo], [`detect-pointer`][detectPointerRepo], [`detect-touch-events`][detectTouchEventsRepo], and [`detect-passive-events`][detectPassiveEventsRepo]). `detect-it`'s `update()` function first runs the `update()` function on each micro state machine that it contains, and then updates it own state.
+---
 
-### `detectIt` micro state machine
-```javascript
-const detectIt = {
-  deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
-  passiveEvents: true / false,
-  hasMouse: true / false,
-  hasTouch: true / false,
-  primaryInput: 'mouse' / 'touch',
+> `detect-it` v4 is currently in pre-release, use the `@next` tag to install it, [v3 is available here](https://github.com/rafgraph/detect-it/tree/v3.0.7)
 
-  // access to the four micro state machines that it contains
-  state: {
-    detectHover,
-    detectPointer,
-    detectTouchEvents,
-    detectPassiveEvents,
-  },
+```
+npm install --save detect-it@next
+```
 
-  // updates the state of the four micro state machines it contains, and then updates its own state
-  update() {...},
+```js
+import * as detectIt from 'detect-it';
+// OR
+import {
+  deviceType,
+  primaryInput,
+  supportsPointerEvents,
+  supportsTouchEvents,
+  supportsPassiveEvents,
+} from 'detect-it';
+```
+
+```js
+// types
+deviceType: 'mouseOnly' | 'touchOnly' | 'hybrid';
+primaryInput: 'mouse' | 'touch';
+supportsPointerEvents: boolean;
+supportsTouchEvents: boolean;
+supportsPassiveEvents: boolean;
+```
+
+---
+
+### `deviceType`
+
+**`mouseOnly` | `touchOnly` | `hybrid`**
+
+Indicates if the the device is `mouseOnly`, `touchOnly` or `hybrid`. For info on how the detection works and how specific devices are classified see [Notes on detecting `deviceType`](#notes-on-detecting-devicetype).
+
+```js
+import { deviceType } from 'detect-it';
+
+if (deviceType === 'hybrid') {
+  // ensure the site is usable by both mouse and touch input
 }
 ```
 
-### Installing `detect-it`
-```terminal
-$ yarn add detect-it
-# OR
-$ npm install --save detect-it
-```
+---
 
-### Using `detect-it`
-```javascript
-import detectIt from 'detect-it';
-```
-```javascript
-// using the state
-detectIt.deviceType === 'mouseOnly' / 'touchOnly' / 'hybrid'; // the device type
+### `primaryInput`
 
-detectIt.passiveEvents === true; // the browser supports passive event listeners
+**`mouse` | `touch`**
 
-detectIt.hasMouse === true; // the deviceType is mouseOnly or hybrid
+Indicates if the primary input for the device is `mouse` or `touch`. For more info on how to use `primaryInput` see the [Recommended usage](#recommended-usage) section.
 
-// the browser supports the touch events api, and the deviceType is touchOnly or hybrid
-detectIt.hasTouch === true;
+```js
+import { primaryInput } from 'detect-it';
 
-detectIt.primaryInput === 'mouse' / 'touch'; // the primary input type
-
-
-// accessing the state of the micro state machines that detectIt contains
-detectIt.state.detectHover; // see the detect-hover repo for more info
-detectIt.state.detectPointer; // see the detect-pointer repo for more info
-detectIt.state.detectTouchEvents; // see the detect-touch-events repo for more info
-detectIt.state.detectPassiveEvents; // see the detect-passive-events repo for more info
-
-
-// updating the state - most apps won't need to use this at all
-detectIt.update();
-```
-
-```javascript
-// note that in the case of a legacy computer and browser, one that
-// doesn't support any of detect-it's detection tests, the default state will be:
-const detectIt = {
-  deviceType: 'mouseOnly',
-  passiveEvents: false,
-  hasMouse: true,
-  hasTouch: false,
-  primaryInput: 'mouse',
-}
-
-// note that in the case of a legacy touch device, one that supports the touch events api,
-// but not any of the other detection tests, the default state will be:
-const detectIt = {
-  deviceType: 'touchOnly',
-  passiveEvents: false,
-  hasMouse: false,
-  hasTouch: true,
-  primaryInput: 'touch',
+if (primaryInput === 'touch') {
+  // tailor UX for touch input
+} else {
+  // tailor UX for mouse input
 }
 ```
 
-Note that the `update()` function is run once at the time of import to set the object's initial state, and generally doesn't need to be run again. If it doesn't have access to the `window`, then the state will be `undefined` (`detect-it` will not throw an error), and you will have to call the `update()` function manually at a later time to update its state.
+---
 
-#### Using `detect-it` to set event listeners
-```javascript
-// if passive events are supported by the browser
-if (detectIt.passiveEvents === true) {
+### `supportsPointerEvents`
+
+**`boolean`**
+
+Indicates if the browser supports the Pointer Events API. See [MDN's Pointer Events](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events) and the [W3C Pointer Events specification](https://www.w3.org/TR/pointerevents/) for more information on Pointer Events. See [Can I use](https://caniuse.com/mdn-api_pointerevent) for current support.
+
+```js
+import { supportsPointerEvents } from 'detect-it';
+
+if (supportsPointerEvents) {
+  element.addEventListener('pointerenter', handlePointerEnter, false);
+}
+```
+
+---
+
+### `supportsTouchEvents`
+
+**`boolean`**
+
+Indicates if the browser supports the Touch Events API. See [MDN's Touch Events](https://developer.mozilla.org/en-US/docs/Web/API/Touch_events) and the [W3C Touch Events specification](https://w3c.github.io/touch-events/) for more information on Touch Events.
+
+```js
+import { supportsTouchEvents } from 'detect-it';
+
+if (supportsTouchEvents) {
+  element.addEventListener('touchstart', handleTouchStart, false);
+}
+```
+
+---
+
+### `supportsPassiveEvents`
+
+**`boolean`**
+
+Indicates if the browser supports passive event listeners. See this [Passive Events Explainer](https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md) for more information on passive events. See [Can I use](https://caniuse.com/passive-event-listener) for current support.
+
+```js
+import { supportsPassiveEvents } from 'detect-it';
+
+if (supportsPassiveEvents) {
+  // passive events are supported by the browser
   document.addEventListener('scroll', handleScroll, { capture: false, passive: true });
 } else {
+  // passive events are not supported by the browser
   document.addEventListener('scroll', handleScroll, false);
 }
+```
 
-if (detectIt.hasMouse) {
-  // set mouse event listeners
-}
-if (detectIt.hasTouch) {
-  // set touch event listeners
-}
+---
 
-// OR
+## Pre-built option served from Unpkg CDN
 
-if (detectIt.deviceType === 'mouseOnly') {
-  // only set mouse event listeners
-}
-if (detectIt.deviceType === 'touchOnly') {
-  // only set touch event listeners
-}
-if (detectIt.deviceType === 'hybrid') {
-  // set both mouse and touch event listeners
+Optionally, instead of using `npm install` you can load Detect It directly in the browser. A minified UMD version is available from Unpkg for this purpose.
+
+```html
+<!-- in index.html -->
+<script src="https://unpkg.com/detect-it/dist/detect-it.umd.min.js"></script>
+```
+
+```js
+// it will be available on the window as detectIt
+if (window.detectIt.primaryInput === 'touch') {
+  // tailor UX for touch input
 }
 ```
 
-#### Real world example using `detect-it`
-- [React Interactive][reactInteractive] - a better interactive state machine than CSS
+---
 
-### Part of the `detect-it` family
-- **`detect-it`**
-  - [`detect-hover`][detectHoverRepo]
-  - [`detect-pointer`][detectPointerRepo]
-  - [`detect-touch-events`][detectTouchEventsRepo]
-  - [`detect-passive-events`][detectPassiveEventsRepo]
+## Recommended usage
 
-### For more information
-- `hover` and `any-hover` media queries see the [W3C Media Queries Level 4 specification, hover section][w3cMediaQueriesSpecLatestHover]
-- `pointer` and `any-pointer` media queries see the [W3C Media Queries Level 4 specification, pointer section][w3cMediaQueriesSpecLatestPointer]
-- Touch events api see [MDN's Touch Events][mdnTouchEvents], or the [W3C Touch Events specification][w3cTouchEventsSpecLatest]
-- General playground see the excellent suite of [touch/pointer tests and demos][touchTests] put together by Patrick H. Lauke
-- Passive events see this [Passive Events Explainer][passiveExplainer]
+TL;DR:
 
-### Notes about detecting the `deviceType`
-I chose a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from a fine point and hover with a mouse, or a coarse touch with a finger, then it should be treated uniquely when considering how the user will interact with it, and so is placed in the broad `hybrid` category.
+- Use `primaryInput` for creating device responsive UX that optimizes the user experience for either `mouse` or `touch` input (note that the app should still be usable by both inputs). Use this along with classic responsive design that adapts to screen/window size to create a fully device responsive app.
+- Listening for user interactions:
+  - If the browser `supportsPointerEvents` then only set PointerEvent listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
+  - Otherwise always set both MouseEvent and TouchEvent listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore MouseEvents generated from touch input.
 
-```javascript
-// this is the function used by detect-it to determine the device type
-function determineDeviceType(hasTouch, anyHover, anyFine) {
-  // A hybrid device is one that both hasTouch and any input device can hover
-  // or has a fine pointer.
-  if (hasTouch && (anyHover || anyFine)) return 'hybrid';
+### Device responsive UX
 
-  // In almost all cases a device that doesn’t support touch will have a mouse,
-  // but there may be rare exceptions. Note that it doesn’t work to do additional tests
-  // based on hover and pointer media queries as older browsers don’t support these.
-  // Essentially, 'mouseOnly' is the default.
-  return hasTouch ? 'touchOnly' : 'mouseOnly';
+Device responsive UX is about creating web apps that feel native on every device. This goes beyond classic responsive design, which only responds to the screen/window size, and includes how the user can interact with the app (the capabilities of the device). Can the user hover, swipe, long press, etc?
+
+There are 3 parts of device responsive UX: **Size** (size of screen/window), **Can** (what the user can do/capabilities of the device), and **Is** (is the user hovering, touching, etc). **Size** and **Can** need to be known at render time (when the UI is rendered), and **Is** needs to be known at interaction time (when the user is interacting with the app).
+
+- **Size**
+  - This can be determined using media queries, for example `(max-width: 600px)`, either applied via CSS or in JavaScript by using something like [`react-media`](https://github.com/ReactTraining/react-media).
+- **Can**
+  - This is what **Detect It** is built for - knowing at render time what the capabilities of the device are (what can the user do). There are a number of ways that you could use `deviceType` or `primaryInput` to optimize the UX for the capabilities of the device, however, in most cases I've found it makes sense to just use `primaryInput` and optimize the UX for `mouse` or `touch`, while ensuring that the app is still usable by both inputs.
+- Putting **Size** and **Can** together, my preferred approach is to optimize the UX for 4 scenarios:
+  - Wide screen with `primaryInput` `mouse`: desktop/laptop with a normal window
+  - Narrow screen and `primaryInput` `mouse`: desktop/laptop with a narrow window
+  - Wide screen with `primaryInput` `touch`: tablet
+  - Narrow screen with `primaryInput` `touch`: phone
+- **Is**
+  - Is the user hovering, touching, etc. To help with this I created [React Interactive]() which provides a callback for interactive state changes (`hover`, `mouseActive`, `touchActive`, `keyActive`) and allows you to style touch interactions in ways that are not possible with CSS pseudo selectors.
+
+### Setting event listeners
+
+Setting event listeners can be thought of as either setting PointerEvent listeners **_or_** setting MouseEvent and TouchEvent listeners. PointerEvents can do everything that MouseEvents and TouchEvents can do (and more), without having to worry about if a MouseEvent was caused by touch input and so should be ignored. It is recommended to use PointerEvents if they are supported.
+
+#### PointerEvent listeners
+
+If the browser `supportsPointerEvents` then only set PointerEvent listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
+
+```js
+import { supportsPointerEvents } from 'detect-it';
+
+const handlePointerEnter = (e) => {
+  if (e.pointerType === 'mouse') {
+    // event from mouse input
+  } else {
+    // event from touch input
+    // note that pointerType can be 'mouse', 'touch' or 'pen'
+    // but in most situations it makes it makes sense to treat 'touch' and 'pen' as the same
+  }
+};
+
+if (supportsPointerEvents) {
+  element.addEventListener('pointerenter', handlePointerEnter, false);
+} else {
+  // set mouse and touch event listeners
 }
 ```
 
-Some `hybrid` examples:
-- A touch capable Chromebook with Chrome browser registers that `hasTouch`, `anyHover`, and `anyFine` are all true.
-- The Galaxy Note with stylus running the Chrome mobile browser registers that `hasTouch` and `anyFine` are true, but that `anyHover` is false.
-- The Microsoft Surface (and other Windows 10 touchscreen computers)
-  - When using the Chrome browser, `hasTouch`, `anyHover` and `anyFine` are all true because Chrome supports the Touch Events API, so the device registers as a `hybrid`.
-  - When using Microsoft's Edge browser `hasTouch` is false because Edge doesn't support the Touch Events API, so it registers as a `mouseOnly` device. To access the touch capabilities in Edge you have to use Pointer Events. If you want Edge to register as a `hybrid` device then use [Detect It v1.1][detectItv1.1] which supports Pointer Events. Note that touches will still fire mouse events, so if you don't set Pointer Event listeners, touch input will act like a mouse.
+#### MouseEvent and TouchEvent listeners
 
-<!-- links -->
-[liveDetectionTest]: https://detect-it-v3.rafgraph.dev/
+If the browser doesn't support PointerEvents, then there are a couple of ways to approach setting mouse and touch event listeners.
 
-[detectHoverRepo]: https://github.com/rafgraph/detect-hover
-[detectPointerRepo]: https://github.com/rafgraph/detect-pointer
-[detectTouchEventsRepo]: https://github.com/rafgraph/detect-touch-events
-[detectPassiveEventsRepo]: https://github.com/rafgraph/detect-passive-events
-[detectItv1.1]: https://github.com/rafgraph/detect-it/tree/v1.1.0
+> Note that a touch interaction will fire TouchEvents as the interaction is in progress (finger on the screen), and then will fire MouseEvents after the touch interaction has finished (after the finger is removed from the screen) to support sites that only listen for MouseEvents.
 
-[reactInteractive]: https://github.com/rafgraph/react-interactive
-[theListener]: https://github.com/rafgraph/the-listener
-[currentInput]: https://github.com/rafgraph/current-input
+**Option 1**: If the device is `mouseOnly` or `touchOnly` then only set mouse or touch listeners, and if the device is `hybrid` set both mouse and touch event listeners and ignore MouseEvents caused by touch input (you can use [`event-from`](https://github.com/rafgraph/event-from) for this).
 
-[canIUsePointerEvents]: https://caniuse.com/#feat=pointer
-[w3cMediaQueriesSpecLatestHover]: https://www.w3.org/TR/mediaqueries-4/#hover
-[w3cMediaQueriesSpecLatestPointer]: https://www.w3.org/TR/mediaqueries-4/#pointer
-[mdnTouchEvents]: https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
-[w3cTouchEventsSpecLatest]: https://w3c.github.io/touch-events/
+**Option 2**: Always set both mouse and touch event listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore MouseEvents from touch input.
 
-[touchTests]: https://patrickhlauke.github.io/touch/
-[passiveExplainer]: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+I prefer option 2 as it's simpler to code and I haven't noticed any performance impact from setting extra listeners (note that setting TouchEvent listeners on a browser that doesn't support TouchEvents is fine, the browser will just ignore the event listeners).
+
+```js
+import { supportsPointerEvents } from 'detect-it';
+import { eventFrom } from 'event-from';
+
+const handleMouseEnter = (e) => {
+  if (eventFrom(e) !== 'mouse') return;
+  // code for handling mouse enter event from mouse input
+};
+
+const handleTouchStart = (e) => {
+  // code for handling touch start from touch input
+};
+
+if (supportsPointerEvents) {
+  // set pointer event listeners
+} else {
+  // PointerEvents are not supported so set both MouseEvent and TouchEvent listeners
+  element.addEventListener('mouseenter', handleMouseEnter, false);
+  element.addEventListener('touchstart', handleTouchStart, false);
+}
+```
+
+---
+
+## Notes on detecting `deviceType`
+
+To determine the `deviceType` and `primaryInput` Detect It uses multiple API detections and media query results to triangulate what type of device is being used. The entire detection is done when the script is imported so the results are known at render time (Detect It doesn't set any event listeners).
+
+Detect It has a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from only a fine point and hover with a mouse, or a coarse touch with a finger, then it should be treated uniquely when considering how the user will interact with it. Below is the source code for determining `deviceType`:
+
+```js
+// a hybrid device is one that both hasTouch and
+// any input can hover or has a fine pointer, or the primary pointer is not coarse
+// if it's not a hybrid, then if it hasTouch it's touchOnly, otherwise it's mouseOnly
+export const deviceType =
+  hasTouch && (hasAnyHoverOrAnyFinePointer || !hasCoarsePrimaryPointer)
+    ? 'hybrid'
+    : hasTouch
+    ? 'touchOnly'
+    : 'mouseOnly';
+```
+
+#### Some `hybrid` device examples
+
+- A touch capable Chromebook
+- A touch capable Windows computer (both when it's used as a regular computer, and when in tablet mode, e.g. Microsoft Surface without a keyboard)
+- A Samsung Galaxy Note with stylus
+- All iPads now that they support a mouse and keyboard (note that Apple makes it impossible to know if a mouse or keyboard is attached, so iPads are always treated as a `hybrid` with `primaryInput` `touch`)
+
+#### Detection limitations
+
+These detections are limited by how the browser presents itself (the APIs it exposes and how it responds to media queries) so there is the potential for errors. As anyone who has done web development knows, browsers are quirky and they don't always behave in expected ways, so **Detect It uses real world browser behavior to triangulate the `deviceType` and `primaryInput`.** For more on this see the comments in the [source code](https://github.com/rafgraph/detect-it/blob/main/src/index.ts) for notes about detecting the device type. Also, [tests](https://github.com/rafgraph/detect-it/tree/main/src/__tests__) have been written to mock a number of different browser behaviors and edge cases. Cloning this repo and running `npm test` will provide insight into how `detect-it` will preform on different devices.
