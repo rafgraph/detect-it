@@ -2,7 +2,7 @@
 
 Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`, and if the primary input is `mouse` or `touch`. Also detects if the browser supports the Pointer Events API, the Touch Events API, and passive event listeners. Detect It is tree-shakable and side-effect free.
 
-This is useful for creating device responsive UX and responding to user interactions. When creating apps with device responsive UX it is important to know what the user can do. Can they hover? Can they swipe? Etc. Once it's known what the user can do, the next question is how does the app listen for user input. For example, it's not enough to know that the user is on a touch device, the app also needs to know how to listen for touch input, should the app set PointerEvent listeners or TouchEvent listeners? For more on this see the [Recommended usage](#recommended-usage) section.
+Detect It can help you create a **device responsive user experience** that goes beyond classic responsive design (which only responds to the screen/window size) to include how the user can interact with the app (the capabilities of the device). Can the user hover, swipe, long press, etc? For more on this see the [Recommended usage](#recommended-usage) section.
 
 ---
 
@@ -158,19 +158,19 @@ TL;DR:
 
 Device responsive UX is about creating web apps that feel native on every device. This goes beyond classic responsive design, which only responds to the screen/window size, and includes how the user can interact with the app (the capabilities of the device). Can the user hover, swipe, long press, etc?
 
-There are 3 parts of device responsive UX: **Size** (size of screen/window), **Can** (what the user can do/capabilities of the device), and **Is** (is the user hovering, touching, etc). **Size** and **Can** need to be known at render time (when the UI is rendered), and **Is** needs to be known at interaction time (when the user is interacting with the app).
+There are 3 parts of device responsive UX: **Size** (size of screen/window), **Capabilities** (what the user can do/capabilities of the device), and **Interaction** (is the user hovering, touching, etc). **Size** and **Capabilities** need to be known at render time (when the UI is rendered before the user interacts with it), and **Interaction** needs to be known at interaction time (when the user is interacting with the app).
 
 - **Size**
   - This can be determined using media queries, for example `(max-width: 600px)`, either applied via CSS or in JavaScript by using something like [`react-media`](https://github.com/ReactTraining/react-media).
-- **Can**
-  - This is what **Detect It** is built for - knowing at render time what the capabilities of the device are (what can the user do). There are a number of ways that you could use `deviceType` or `primaryInput` to optimize the UX for the capabilities of the device, however, in most cases I've found it makes sense to just use `primaryInput` and optimize the UX for `mouse` or `touch`, while ensuring that the app is still usable by both inputs.
-- Putting **Size** and **Can** together, my preferred approach is to optimize the UX for 4 scenarios:
+- **Capabilities**
+  - This is what **Detect It** is for - knowing at render time what the capabilities of the device are. There are a number of ways that you could use `deviceType` or `primaryInput` to optimize the UX for the capabilities of the device, however, in most cases I've found it makes sense to just use `primaryInput` and optimize the UX for `mouse` or `touch`, while ensuring that the app is still usable by both inputs.
+- Putting **Size** and **Capabilities** together, one approach is to optimize the UX for 4 scenarios:
   - Wide screen with `primaryInput` `mouse`: desktop/laptop with a normal window
   - Narrow screen and `primaryInput` `mouse`: desktop/laptop with a narrow window
   - Wide screen with `primaryInput` `touch`: tablet
   - Narrow screen with `primaryInput` `touch`: phone
-- **Is**
-  - Is the user hovering, touching, etc. To help with this I created [React Interactive]() which provides a callback for interactive state changes (`hover`, `mouseActive`, `touchActive`, `keyActive`) and allows you to style touch interactions in ways that are not possible with CSS pseudo selectors.
+- **Interaction**
+  - Is the user hovering, touching, etc. To help with this I created [React Interactive](https://github.com/rafgraph/react-interactive) which provides a callback for interactive state changes (`hover`, `mouseActive`, `touchActive`, `keyActive`) and allows you to style touch interactions in ways that feel native and are not possible with CSS pseudo classes.
 
 ### Setting event listeners
 
