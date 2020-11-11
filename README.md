@@ -1,12 +1,12 @@
 # Detect It
 
-Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`, and if the primary input is `mouse` or `touch`. Also detects if the browser supports the Pointer Events API, the Touch Events API, and passive event listeners. Detect It is tree-shakable and side-effect free.
-
-Detect It can help you create a **device responsive user experience** that goes beyond classic responsive design (which only responds to the screen/window size) to include how the user can interact with the app (the capabilities of the device). Can the user hover, swipe, long press, etc? For more on this see the [Recommended usage](#recommended-usage) section.
-
----
+- Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`
+- Detect if the primary input is `mouse` or `touch`
+- Detect if the browser supports Pointer Events, Touch Events, and passive event listeners
 
 [Live detection test](https://detect-it.rafgraph.dev) (code in the [demo repo](https://github.com/rafgraph/detect-it-demo))
+
+Detect It's state is determined by the result of multiple media query and API detections. It uses `hover` and `pointer` media query results, Pointer Events API and max touch points detections, and two different Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device type 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It do the hard work while you optimize your app for the device that's being used (for some tips see the [Recommended usage](#recommended-usage) section). Detect It has been tested on numerous real world devices (since 2016), and [tests](https://github.com/rafgraph/detect-it/tree/main/src/__tests__) have been written to mock these devices and ensure accurate results. For more on this see the [Detection details](#detection-details) section.
 
 [![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it@next?color=purple)](https://bundlephobia.com/result?p=detect-it@next) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
 
@@ -45,7 +45,7 @@ supportsPassiveEvents: boolean;
 
 **`mouseOnly` | `touchOnly` | `hybrid`**
 
-Indicates if the the device is `mouseOnly`, `touchOnly` or `hybrid`. For info on how the detection works and how specific devices are classified see [Notes on detecting `deviceType`](#notes-on-detecting-devicetype).
+Indicates if the the device is `mouseOnly`, `touchOnly` or `hybrid`. For info on how the detection works and how specific devices are classified see the [Detection details](#detection-details) section.
 
 ```js
 import { deviceType } from 'detect-it';
@@ -129,7 +129,7 @@ if (supportsPassiveEvents) {
 
 ## Pre-built option served from Unpkg CDN
 
-Optionally, instead of using `npm install` you can load Detect It directly in the browser. A minified UMD version is available from Unpkg for this purpose.
+Optionally, instead of using `npm install` you can load Detect It directly in the browser. A minified and production ready UMD version is available from Unpkg for this purpose.
 
 ```html
 <!-- in index.html -->
@@ -149,10 +149,10 @@ if (window.detectIt.primaryInput === 'touch') {
 
 TL;DR:
 
-- Use `primaryInput` for creating device responsive UX that optimizes the user experience for either `mouse` or `touch` input (note that the app should still be usable by both inputs). Use this along with classic responsive design that adapts to screen/window size to create a fully device responsive app.
+- Use `primaryInput` to optimize the user experience for either `mouse` or `touch` input (note that the app should still be usable by both inputs). Use this along with classic responsive design that adapts to screen/window size to create a fully device responsive app.
 - Listening for user interactions:
-  - If the browser `supportsPointerEvents` then only set PointerEvent listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
-  - Otherwise always set both MouseEvent and TouchEvent listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore MouseEvents generated from touch input.
+  - If the browser `supportsPointerEvents` then only set Pointer Event listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
+  - Otherwise always set both Mouse Event and Touch Event listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore Mouse Events generated from touch input.
 
 ### Device responsive UX
 
@@ -163,7 +163,7 @@ There are 3 parts of device responsive UX: **Size** (size of screen/window), **C
 - **Size**
   - This can be determined using media queries, for example `(max-width: 600px)`, either applied via CSS or in JavaScript by using something like [`react-media`](https://github.com/ReactTraining/react-media).
 - **Capabilities**
-  - This is what **Detect It** is for - knowing at render time what the capabilities of the device are. There are a number of ways that you could use `deviceType` or `primaryInput` to optimize the UX for the capabilities of the device, however, in most cases I've found it makes sense to just use `primaryInput` and optimize the UX for `mouse` or `touch`, while ensuring that the app is still usable by both inputs.
+  - This is what **Detect It** is for - knowing at render time what the capabilities of the device are. There are a number of ways that you can use `deviceType` or `primaryInput` to optimize the UX for the capabilities of the device, however, in most cases I've found it makes sense to just use `primaryInput` and optimize the UX for `mouse` or `touch`, while ensuring that the app is still usable by both inputs.
 - Putting **Size** and **Capabilities** together, one approach is to optimize the UX for 4 scenarios:
   - Wide screen with `primaryInput` `mouse`: desktop/laptop with a normal window
   - Narrow screen and `primaryInput` `mouse`: desktop/laptop with a narrow window
@@ -174,11 +174,11 @@ There are 3 parts of device responsive UX: **Size** (size of screen/window), **C
 
 ### Setting event listeners
 
-Setting event listeners can be thought of as either setting PointerEvent listeners **_or_** setting MouseEvent and TouchEvent listeners. PointerEvents can do everything that MouseEvents and TouchEvents can do (and more), without having to worry about if a MouseEvent was caused by touch input and so should be ignored. It is recommended to use PointerEvents if they are supported.
+Setting event listeners can be thought of as either setting Pointer Event listeners **_or_** setting Mouse Event and Touch Event listeners. Pointer Events can do everything that Mouse Events and Touch Events can do (and more), without having to worry about if a Mouse Event was caused by touch input and so should be ignored. It is recommended to use Pointer Events if they are supported.
 
-#### PointerEvent listeners
+#### Pointer Event listeners
 
-If the browser `supportsPointerEvents` then only set PointerEvent listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
+If the browser `supportsPointerEvents` then only set Pointer Event listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
 
 ```js
 import { supportsPointerEvents } from 'detect-it';
@@ -200,17 +200,17 @@ if (supportsPointerEvents) {
 }
 ```
 
-#### MouseEvent and TouchEvent listeners
+#### Mouse Event and Touch Event listeners
 
-If the browser doesn't support PointerEvents, then there are a couple of ways to approach setting mouse and touch event listeners.
+If the browser doesn't support Pointer Events, then there are a couple of ways to approach setting mouse and touch event listeners.
 
-> Note that a touch interaction will fire TouchEvents as the interaction is in progress (finger on the screen), and then will fire MouseEvents after the touch interaction has finished (after the finger is removed from the screen) to support sites that only listen for MouseEvents.
+> Note that a touch interaction will fire Touch Events as the interaction is in progress (finger on the screen), and then will fire Mouse Events after the touch interaction has finished (after the finger is removed from the screen) to support sites that only listen for Mouse Events.
 
-**Option 1**: If the device is `mouseOnly` or `touchOnly` then only set mouse or touch listeners, and if the device is `hybrid` set both mouse and touch event listeners and ignore MouseEvents caused by touch input (you can use [`event-from`](https://github.com/rafgraph/event-from) for this).
+**Option 1**: If the device is `mouseOnly` or `touchOnly` then only set mouse or touch listeners, and if the device is `hybrid` set both mouse and touch event listeners and ignore Mouse Events caused by touch input (you can use [`event-from`](https://github.com/rafgraph/event-from) for this).
 
-**Option 2**: Always set both mouse and touch event listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore MouseEvents from touch input.
+**Option 2**: Always set both mouse and touch event listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore Mouse Events from touch input.
 
-I prefer option 2 as it's simpler to code and I haven't noticed any performance impact from setting extra listeners (note that setting TouchEvent listeners on a browser that doesn't support TouchEvents is fine, the browser will just ignore the event listeners).
+I prefer option 2 as it's simpler to code and I haven't noticed any performance impact from setting extra listeners (note that setting Touch Event listeners on a browser that doesn't support Touch Events is fine, the browser will just ignore the event listeners).
 
 ```js
 import { supportsPointerEvents } from 'detect-it';
@@ -228,7 +228,7 @@ const handleTouchStart = (e) => {
 if (supportsPointerEvents) {
   // set pointer event listeners
 } else {
-  // PointerEvents are not supported so set both MouseEvent and TouchEvent listeners
+  // Pointer Events are not supported so set both Mouse Event and Touch Event listeners
   element.addEventListener('mouseenter', handleMouseEnter, false);
   element.addEventListener('touchstart', handleTouchStart, false);
 }
@@ -236,9 +236,21 @@ if (supportsPointerEvents) {
 
 ---
 
-## Notes on detecting `deviceType`
+## Detection details
 
-To determine the `deviceType` and `primaryInput` Detect It uses multiple API detections and media query results to triangulate what type of device is being used. The entire detection is done when the script is imported so the results are known at render time (Detect It doesn't set any event listeners).
+#### Determining the `deviceType` and `primaryInput`
+
+To determine the `deviceType` and `primaryInput` Detect It uses several media query and API detections to triangulate what type of device is being used. The entire detection is done when the script is imported so the results are known at render time (Detect It doesn't set any event listeners).
+
+Detect It uses `hover` and `pointer` media query results, Pointer Events API and max touch points detections, and two different Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device). For more on this see the comments in the [source code](https://github.com/rafgraph/detect-it/blob/main/src/index.ts) for notes about detecting the device type and edge cases.
+
+#### Device tests and limitations
+
+Detect It has been tested on numerous real world devices (since 2016), and [tests](https://github.com/rafgraph/detect-it/tree/main/src/__tests__) have been written to mock these devices and ensure accurate results (cloning this repo and running `npm test` will provide insight into how it will preform on different devices). However, these detections are limited by how the browser presents itself (the APIs it exposes and how it responds to media queries) so there are some limitations, for example on an iPad it is impossible to tell if a mouse is connected, so Detect It always treats iPads as a `hybrid` device with `primaryInput` `touch`.
+
+In the case of a legacy browser or device that doesn't support the detections (e.g. no media query or Pointer Events support), Detect It will fall back to a default `mouseOnly` or `touchOnly` state.
+
+#### Hybrid device definition
 
 Detect It has a wide definition for what constitutes a `hybrid` device, or rather a strict definition for what are `mouseOnly` and `touchOnly` devices, because if a device strays from only a fine point and hover with a mouse, or a coarse touch with a finger, then it should be treated uniquely when considering how the user will interact with it. Below is the source code for determining `deviceType`:
 
@@ -260,7 +272,3 @@ export const deviceType =
 - A touch capable Windows computer (both when it's used as a regular computer, and when in tablet mode, e.g. Microsoft Surface without a keyboard)
 - A Samsung Galaxy Note with stylus
 - All iPads now that they support a mouse and keyboard (note that Apple makes it impossible to know if a mouse or keyboard is attached, so iPads are always treated as a `hybrid` with `primaryInput` `touch`)
-
-#### Detection limitations
-
-These detections are limited by how the browser presents itself (the APIs it exposes and how it responds to media queries) so there is the potential for errors. As anyone who has done web development knows, browsers are quirky and they don't always behave in expected ways, so **Detect It uses real world browser behavior to triangulate the `deviceType` and `primaryInput`.** For more on this see the comments in the [source code](https://github.com/rafgraph/detect-it/blob/main/src/index.ts) for notes about detecting the device type. Also, [tests](https://github.com/rafgraph/detect-it/tree/main/src/__tests__) have been written to mock a number of different browser behaviors and edge cases. Cloning this repo and running `npm test` will provide insight into how `detect-it` will preform on different devices.
