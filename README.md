@@ -6,7 +6,9 @@
 
 [Live detection test](https://detect-it.rafgraph.dev) (code in the [demo repo](https://github.com/rafgraph/detect-it-demo))
 
-Detect It's state is determined using multiple media query and API detections. It uses the `hover` and `pointer` media queries, the Pointer Events API and max touch points detections, and two Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It handle the details while you optimize your app for the type of device that's being used. Detect It has been tested on numerous real world devices (since 2016), and the tests mock multiple devices and edge cases to ensure accurate results.
+Detect It's state is determined using multiple media query and API detections. Detect It uses the `hover` and `pointer` media queries, the Pointer Events API and max touch points detections, and two Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It handle the details while you optimize your app for the type of device that's being used. 😁 
+
+Detect It has been tested on numerous real world devices (since 2016), and the tests mock multiple devices and edge cases to ensure accurate results, but it should be noted that the detection is reliant on how the browser presents the capabilities of the device as it is not possible to access the device hardware directly.
 
 [![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it@next?color=purple)](https://bundlephobia.com/result?p=detect-it@next) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
 
@@ -250,7 +252,7 @@ Detect It uses the `hover` and `pointer` media queries, the Pointer Events API a
 
 #### Device tests and limitations
 
-Detect It has been tested on numerous real world devices (since 2016), and the [tests](https://github.com/rafgraph/detect-it/tree/main/src/__tests__) mock multiple devices and edge cases to ensure accurate results. However, these detections are limited by how the browser presents itself (the APIs it exposes and how it responds to media queries) so there are some limitations, for example on an iPad it is impossible to tell if a mouse is connected, so Detect It always treats iPads as a `hybrid` device with `primaryInput` `touch`.
+Detect It has been tested on numerous real world devices (since 2016), and the [tests](https://github.com/rafgraph/detect-it/tree/main/src/__tests__) mock multiple devices and edge cases to ensure accurate results. However, these detections are limited by how the browser presents the capabilities of the device (the APIs it exposes and how it responds to media queries) so there are some limitations. For example, on an iPad it is impossible to tell if a mouse is connected, so Detect It always treats iPads as a `hybrid` device with `primaryInput` `touch`.
 
 In the case of a legacy browser or device that doesn't support the detections (e.g. no media query or Pointer Events support), Detect It will fall back to a default `mouseOnly` or `touchOnly` state.
 
