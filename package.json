@@ -14,7 +14,8 @@
     "lint": "eslint src",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "coverage": "npx live-server coverage/lcov-report"
+    "coverage": "npx live-server coverage/lcov-report",
+    "lintStaged": "lint-staged"
   },
   "files": [
     "dist"
@@ -39,8 +40,17 @@
   },
   "homepage": "https://detect-it.rafgraph.dev",
   "devDependencies": {
+    "lint-staged": "^10.5.2",
+    "pre-commit": "^1.2.2",
     "rollpkg": "^0.1.1",
     "typescript": "^4.1.2"
+  },
+  "pre-commit": "lintStaged",
+  "lint-staged": {
+    "src/**/*": [
+      "eslint",
+      "prettier --write --ignore-unknown"
+    ]
   },
   "prettier": "rollpkg/configs/prettier.json",
   "eslintConfig": {
