@@ -2,25 +2,23 @@
   "name": "detect-it",
   "version": "4.0.0-next.0",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
-  "source": "src/index.ts",
-  "main": "dist/detect-it.js",
-  "umd:main": "dist/detect-it.umd.min.js",
+  "main": "dist/detect-it.cjs.js",
   "module": "dist/detect-it.esm.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "dev": "npm link && npm run watch && npm unlink",
-    "watch": "rm -rf dist && trap 'exit 0' SIGINT; microbundle watch --format esm,cjs --no-compress --strict --tsconfig tsconfig.build.json & microbundle watch --format umd --compress --strict --tsconfig tsconfig.build.json --external peerDependencies",
-    "build": "rm -rf dist && microbundle build --format esm,cjs --no-compress --strict --tsconfig tsconfig.build.json && microbundle build --format umd --compress --strict --tsconfig tsconfig.build.json --external peerDependencies",
-    "prepublishOnly": "npm run build",
-    "tsc": "tsc --watch",
+    "dev": "npm link && npm run watch && npm unlink -g",
+    "build": "rollpkg build",
+    "watch": "rollpkg watch",
+    "prepublishOnly": "npm run lint && npm test && npm run build",
+    "lint": "eslint src",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "coverage": "npx live-server coverage/lcov-report"
+    "coverage": "npx live-server coverage/lcov-report",
+    "lintStaged": "lint-staged"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -32,7 +30,8 @@
     "mouse",
     "touch",
     "hybrid",
-    "passive events"
+    "passive events",
+    "pointer events"
   ],
   "author": "Rafael Pedicini <rafael@rafgraph.dev>",
   "license": "MIT",
@@ -41,60 +40,28 @@
   },
   "homepage": "https://detect-it.rafgraph.dev",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
-    "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.13.0",
-    "eslint-plugin-import": "^2.22.1",
-    "husky": "^4.3.0",
-    "jest": "^26.5.3",
-    "lint-staged": "^10.4.0",
-    "microbundle": "^0.12.4",
-    "prettier": "^2.1.2",
-    "ts-jest": "^26.4.1",
-    "typescript": "^4.0.3"
+    "lint-staged": "^10.5.2",
+    "pre-commit": "^1.2.2",
+    "rollpkg": "^0.1.1",
+    "typescript": "^4.1.2"
   },
-  "eslintConfig": {
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "sourceType": "module",
-      "project": "./tsconfig.json",
-      "createDefaultProgram": true
-    },
-    "env": {
-      "browser": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:import/typescript",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "prettier",
-      "prettier/@typescript-eslint"
-    ],
-    "rules": {
-      "import/no-default-export": "error"
-    },
-    "ignorePatterns": [
-      "dist",
-      "node_modules",
-      "jest.config.js"
+  "pre-commit": "lintStaged",
+  "lint-staged": {
+    "src/**/*": [
+      "eslint",
+      "prettier --write --ignore-unknown"
     ]
   },
-  "prettier": {
-    "trailingComma": "all",
-    "singleQuote": true,
-    "printWidth": 100
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+  "prettier": "rollpkg/configs/prettier.json",
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/rollpkg/configs/eslint"
+    ],
+    "rules": {
+      "jest/no-mocks-import": "off"
     }
   },
-  "lint-staged": {
-    "src/**/*": "prettier --write --ignore-unknown"
+  "jest": {
+    "preset": "rollpkg"
   }
 }
