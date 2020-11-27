@@ -139,12 +139,12 @@ Optionally, instead of using `npm install` you can load Detect It directly in th
 
 ```html
 <!-- in index.html -->
-<script src="https://unpkg.com/detect-it/dist/detect-it.umd.min.js"></script>
+<script src="https://unpkg.com/detect-it/dist/detect-it.umd.production.js"></script>
 ```
 
 ```js
-// it will be available on the window as detectIt
-if (window.detectIt.primaryInput === 'touch') {
+// it will be available on the window as DetectIt
+if (window.DetectIt.primaryInput === 'touch') {
   // tailor UX for touch input
 }
 ```
