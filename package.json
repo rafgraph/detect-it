@@ -1,6 +1,6 @@
 {
   "name": "detect-it",
-  "version": "4.0.0-next.1",
+  "version": "4.0.0-next.2",
   "description": "Detect if a device is mouse only, touch only, or hybrid",
   "main": "dist/detect-it.cjs.js",
   "module": "dist/detect-it.esm.js",
