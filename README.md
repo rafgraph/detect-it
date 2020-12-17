@@ -3,10 +3,11 @@
 - Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`
 - Detect if the primary input is `mouse` or `touch`
 - Detect if the browser supports Pointer Events, Touch Events, and passive event listeners
+- You may also be interested in [Event From](https://github.com/rafgraph/event-from), which determines if a browser event was caused by `mouse`, `touch`, or `key` input
 
 [Live detection test](https://detect-it.rafgraph.dev) (code in the [demo repo](https://github.com/rafgraph/detect-it-demo))
 
-Detect It's state is determined using multiple media query and API detections. Detect It uses the `hover` and `pointer` media queries, the Pointer Events API and max touch points detections, and two Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It handle the details while you optimize your app for the type of device that's being used. 😁 
+Detect It's state is determined using multiple media query and API detections. Detect It uses the `hover` and `pointer` media queries, the Pointer Events API and max touch points detections, and two Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It handle the details while you optimize your app for the type of device that's being used. 😁
 
 Detect It has been tested on numerous real world devices (since 2016), and the tests mock multiple devices and edge cases to ensure accurate results, but it should be noted that the detection is reliant on how the browser presents the capabilities of the device as it is not possible to access the device hardware directly.
 
@@ -18,10 +19,8 @@ Detect It has been tested on numerous real world devices (since 2016), and the t
 
 ---
 
-> `detect-it` v4 is currently in pre-release, use the `@next` tag to install it, [v3 is available here](https://github.com/rafgraph/detect-it/tree/v3.0.7)
-
 ```
-npm install --save detect-it@next
+npm install --save detect-it
 ```
 
 ```js
@@ -124,7 +123,10 @@ import { supportsPassiveEvents } from 'detect-it';
 
 if (supportsPassiveEvents) {
   // passive events are supported by the browser
-  document.addEventListener('scroll', handleScroll, { capture: false, passive: true });
+  document.addEventListener('scroll', handleScroll, {
+    capture: false,
+    passive: true,
+  });
 } else {
   // passive events are not supported by the browser
   document.addEventListener('scroll', handleScroll, false);
@@ -180,7 +182,7 @@ There are 3 parts of device responsive UX: **Size** (size of screen/window), **C
 
 ### Setting event listeners
 
-Setting event listeners can be thought of as either setting Pointer Event listeners **_or_** setting Mouse Event and Touch Event listeners. Pointer Events can do everything that Mouse Events and Touch Events can do (and more), without having to worry about if a Mouse Event was caused by touch input and so should be ignored. It is recommended to use Pointer Events if they are supported.
+Setting event listeners can be thought of as either setting Pointer Event listeners **_or_** setting Mouse Event and Touch Event listeners. Pointer Events can do everything that Mouse Events and Touch Events can do (and more), without having to worry about if a Mouse Event was caused by touch input and so should be ignored. It is generally preferred to use Pointer Events if they are supported.
 
 #### Pointer Event listeners
 
@@ -210,7 +212,7 @@ if (supportsPointerEvents) {
 
 If the browser doesn't support Pointer Events, then there are a couple of ways to approach setting mouse and touch event listeners.
 
-> Note that a touch interaction will fire Touch Events as the interaction is in progress (finger on the screen), and then will fire Mouse Events after the touch interaction has finished (after the finger is removed from the screen) to support sites that only listen for Mouse Events.
+> Note that a touch interaction will fire Touch Events as the interaction is in progress (touch on the screen), and will fire Mouse Events during a long press (extended touch on the screen), or after the touch interaction has finished (after the touch is removed from the screen) to support sites that only listen for Mouse Events.
 
 **Option 1**: If the device is `mouseOnly` or `touchOnly` then only set mouse or touch listeners, and if the device is `hybrid` set both mouse and touch event listeners and ignore Mouse Events caused by touch input (you can use [`event-from`](https://github.com/rafgraph/event-from) for this).
 
