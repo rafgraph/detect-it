@@ -160,7 +160,7 @@ TL;DR:
 - Use `primaryInput` to optimize the user experience for either `mouse` or `touch` input (note that the app should still be usable by both inputs). Use this along with classic responsive design that adapts to screen/window size to create a fully device responsive app.
 - Listening for user interactions:
   - If the browser `supportsPointerEvents` then only set Pointer Event listeners and use [`pointerType`](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType) to determine if the interaction was from `mouse` or `touch`.
-  - Otherwise always set both Mouse Event and Touch Event listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore Mouse Events generated from touch input.
+  - Otherwise always set both Mouse Event and Touch Event listeners and use [Event From](https://github.com/rafgraph/event-from) to ignore Mouse Events generated from touch input.
 
 ### Device responsive UX
 
@@ -169,7 +169,7 @@ Device responsive UX is about creating web apps that feel native on every device
 There are 3 parts of device responsive UX: **Size** (size of screen/window), **Capabilities** (what the user can do/capabilities of the device), and **Interaction** (is the user hovering, touching, etc). **Size** and **Capabilities** need to be known at render time (when the UI is rendered before the user interacts with it), and **Interaction** needs to be known at interaction time (when the user is interacting with the app).
 
 - **Size**
-  - This can be determined using media queries, for example `(max-width: 600px)`, either applied via CSS or in JavaScript by using something like [`react-media`](https://github.com/ReactTraining/react-media).
+  - This can be determined using media queries, for example `(max-width: 600px)`, either applied via CSS or in JavaScript by using something like [React Media](https://github.com/ReactTraining/react-media).
 - **Capabilities**
   - This is what **Detect It** is for - knowing at render time what the capabilities of the device are. There are a number of ways that you can use `deviceType` or `primaryInput` to optimize the UX for the capabilities of the device, however, in most cases I've found it makes sense to just use `primaryInput` and optimize the UX for `mouse` or `touch`, while ensuring that the app is still usable by both inputs.
 - Putting **Size** and **Capabilities** together, one approach is to optimize the UX for 4 scenarios:
@@ -178,7 +178,7 @@ There are 3 parts of device responsive UX: **Size** (size of screen/window), **C
   - Wide screen with `primaryInput` `touch`: tablet
   - Narrow screen with `primaryInput` `touch`: phone
 - **Interaction**
-  - Is the user hovering, touching, etc. To help with this I created [React Interactive](https://github.com/rafgraph/react-interactive) which provides a callback for interactive state changes (`hover`, `mouseActive`, `touchActive`, `keyActive`) and allows you to style touch interactions in ways that feel native and are not possible with CSS pseudo classes.
+  - Is the user hovering, touching, etc. To help with this I created [React Interactive](https://github.com/rafgraph/react-interactive) which provides a callback for interactive state changes (`hover`, `mouseActive`, `touchActive`, `keyActive`) and allows you to style touch interactions in a way that feels native and is not possible with CSS pseudo classes.
 
 ### Setting event listeners
 
@@ -214,9 +214,9 @@ If the browser doesn't support Pointer Events, then there are a couple of ways t
 
 > Note that a touch interaction will fire Touch Events as the interaction is in progress (touch on the screen), and will fire Mouse Events during a long press (extended touch on the screen), or after the touch interaction has finished (after the touch is removed from the screen) to support sites that only listen for Mouse Events.
 
-**Option 1**: If the device is `mouseOnly` or `touchOnly` then only set mouse or touch listeners, and if the device is `hybrid` set both mouse and touch event listeners and ignore Mouse Events caused by touch input (you can use [`event-from`](https://github.com/rafgraph/event-from) for this).
+**Option 1**: If the device is `mouseOnly` or `touchOnly` then only set mouse or touch listeners, and if the device is `hybrid` set both mouse and touch event listeners and ignore Mouse Events caused by touch input (you can use [Event From](https://github.com/rafgraph/event-from) for this).
 
-**Option 2**: Always set both mouse and touch event listeners and use [`event-from`](https://github.com/rafgraph/event-from) to ignore Mouse Events from touch input.
+**Option 2**: Always set both mouse and touch event listeners and use [Event From](https://github.com/rafgraph/event-from) to ignore Mouse Events from touch input.
 
 I prefer option 2 as it's simpler to code and I haven't noticed any performance impact from setting extra listeners (note that setting Touch Event listeners on a browser that doesn't support Touch Events is fine, the browser will just ignore the event listeners).
 
