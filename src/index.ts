@@ -13,8 +13,9 @@ interface noWindow {
 }
 
 // so it doesn't throw if no window or matchMedia
-const w: Window | noWindow = typeof window !== 'undefined' ? window : { screen: {}, navigator: {} };
-const matchMedia = w.matchMedia || (() => ({ matches: false }));
+const w: Window | noWindow =
+  typeof window !== 'undefined' ? window : { screen: {}, navigator: {} };
+const matchMedia = (w.matchMedia || (() => ({ matches: false }))).bind(w);
 
 // passive events test
 // adapted from https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
@@ -49,7 +50,8 @@ const touchEventInWindow = 'TouchEvent' in w;
 // a mouse only device (touchEventInWindow true, but onTouchStartInWindow false)
 // so the touchEventInWindow check needs to include an coarse pointer media query
 export const supportsTouchEvents: boolean =
-  onTouchStartInWindow || (touchEventInWindow && matchMedia('(any-pointer: coarse)').matches);
+  onTouchStartInWindow ||
+  (touchEventInWindow && matchMedia('(any-pointer: coarse)').matches);
 
 const hasTouch = (w.navigator.maxTouchPoints || 0) > 0 || supportsTouchEvents;
 
