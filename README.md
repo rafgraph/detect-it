@@ -1,5 +1,7 @@
 # Detect It
 
+[![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it?color=purple)](https://bundlephobia.com/result?p=detect-it) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
+
 - Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`
 - Detect if the primary input is `mouse` or `touch`
 - Detect if the browser supports Pointer Events, Touch Events, and passive event listeners
@@ -10,8 +12,6 @@
 Detect It's state is determined using multiple media query and API detections. Detect It uses the `hover` and `pointer` media queries, the Pointer Events API and max touch points detections, and two Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It handle the details while you optimize your app for the type of device that's being used. 😁
 
 Detect It has been tested on numerous real world devices (since 2016), and the tests mock multiple devices and edge cases to ensure accurate results. The detection relies on how the browser presents the capabilities of the device as it is not possible to access the device hardware directly.
-
-[![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it?color=purple)](https://bundlephobia.com/result?p=detect-it) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
 
 ---
 
@@ -141,7 +141,7 @@ Optionally, instead of using `npm install` you can load Detect It directly in th
 
 ```html
 <!-- in index.html -->
-<script src="https://unpkg.com/detect-it/dist/detect-it.umd.production.js"></script>
+<script src="https://unpkg.com/detect-it@4/dist/detect-it.umd.production.js"></script>
 ```
 
 ```js
