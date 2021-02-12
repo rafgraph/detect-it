@@ -2,12 +2,12 @@
 
 [![npm](https://img.shields.io/npm/dm/detect-it?label=npm)](https://www.npmjs.com/package/detect-it) [![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/detect-it?color=purple)](https://bundlephobia.com/result?p=detect-it) ![npm type definitions](https://img.shields.io/npm/types/detect-it?color=blue)
 
+- **[Live detection demo](https://detect-it.rafgraph.dev)**
 - Detect if a device is `mouseOnly`, `touchOnly`, or `hybrid`
 - Detect if the primary input is `mouse` or `touch`
 - Detect if the browser supports Pointer Events, Touch Events, and passive event listeners
 - You may also be interested in [Event From](https://github.com/rafgraph/event-from), which determines if a browser event was caused by `mouse`, `touch`, or `key` input
 
-[Live detection test](https://detect-it.rafgraph.dev) (code in the [demo repo](https://github.com/rafgraph/detect-it-demo))
 
 Detect It's state is determined using multiple media query and API detections. Detect It uses the `hover` and `pointer` media queries, the Pointer Events API and max touch points detections, and two Touch Events API detections (browsers respond differently to each Touch Events API detection depending on the device 😩 welcome to WebDev). But now you don't have to worry about any of this, just let Detect It handle the details while you optimize your app for the type of device that's being used. 😁
 
