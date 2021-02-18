@@ -15,7 +15,7 @@ interface noWindow {
 // so it doesn't throw if no window or matchMedia
 const w: Window | noWindow =
   typeof window !== 'undefined' ? window : { screen: {}, navigator: {} };
-const matchMedia = (w.matchMedia || (() => ({ matches: false }))).bind(w);
+const matchMedia = (w?.matchMedia || (() => ({ matches: false }))).bind(w);
 
 // passive events test
 // adapted from https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
@@ -53,12 +53,12 @@ export const supportsTouchEvents: boolean =
   onTouchStartInWindow ||
   (touchEventInWindow && matchMedia('(any-pointer: coarse)').matches);
 
-const hasTouch = (w.navigator.maxTouchPoints || 0) > 0 || supportsTouchEvents;
+const hasTouch = (w?.navigator?.maxTouchPoints || 0) > 0 || supportsTouchEvents;
 
 // userAgent is used as a backup to correct for known device/browser bugs
 // and when the browser doesn't support interaction media queries (pointer and hover)
 // see https://caniuse.com/css-media-interaction
-const userAgent = w.navigator.userAgent || '';
+const userAgent = w?.navigator?.userAgent || '';
 
 // iPads now support a mouse that can hover, however the media query interaction
 // feature results always say iPads only have a coarse pointer that can't hover
@@ -72,7 +72,7 @@ const isIPad =
   // so need to check both userAgents to determine if it is an iOS device
   // and screen size to separate iPad from iPhone
   /iPad|Macintosh/.test(userAgent) &&
-  Math.min(w.screen.width || 0, w.screen.height || 0) >= 768;
+  Math.min(w?.screen?.width || 0, w?.screen?.height || 0) >= 768;
 
 const hasCoarsePrimaryPointer =
   (matchMedia('(pointer: coarse)').matches ||
