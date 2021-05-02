@@ -41,13 +41,12 @@
   "devDependencies": {
     "lint-staged": "^10.5.4",
     "pre-commit": "^1.2.2",
-    "rollpkg": "^0.4.2",
-    "typescript": "^4.1.5"
+    "rollpkg": "^0.5.5",
+    "typescript": "^4.2.4"
   },
   "pre-commit": "lintStaged",
   "lint-staged": {
     "(src/**/*|demo/src/**/*)": [
-      "eslint",
       "prettier --write --ignore-unknown"
     ]
   },
